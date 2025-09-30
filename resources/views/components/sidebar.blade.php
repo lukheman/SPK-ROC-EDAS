@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
                     <a href="">
-                        CacaoCare
+                        ROCEDAC
                     </a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -46,10 +46,18 @@
                     <div class="avatar avatar-md">
                         <img src="{{ auth()->user()->photo ? asset('storage/' . (auth()->user()->photo ?? '')) : asset('./assets/compiled/jpg/2.jpg') }}">
                         </div>
-                        <p class="font-bold ms-3 mb-0">{{ auth()->user()->role}} - {{ auth()->user()->name }}</p>
+                        <p class="font-bold ms-3 mb-0">
+                        @if (auth('pengguna')->check())
+                            {{ auth()->user()->role}} - {{ auth()->user()->name }}
+
+                        @elseif(auth('siswa')->check())
+                            Siswa - {{ auth()->user()->nama }}
+                        @endif
+                        </p>
                             </div>
                             <hr>
-                            <li class="sidebar-title">Navigasi Utama</li>
+
+                            @if (auth('pengguna')->check())
 
 <x-nav-link
     icon="bi-house-door-fill"
@@ -59,38 +67,84 @@
     Dashbaord
 </x-nav-link>
 
+                            @endif
+
+
+                        @if (auth('pengguna')->check())
+
+
+
+
+                        {{-- ADMIN --}}
+                        @if (auth('pengguna')->user()->role === \App\Enums\Role::ADMIN)
+
+                            <li class="sidebar-title">Navigasi Utama</li>
+
 <x-nav-link
-    icon="bi-bug-fill"
-    href="{{ route('penyakit-table') }}"
-    :active="request()->routeIs('penyakit-table')"
+    icon="bi-exclamation-triangle-fill"
+    href="{{ route('siswa-table') }}"
+    :active="request()->routeIs('siswa-table')"
 >
-    Daftar Penyakit
+    Daftar Siswa
 </x-nav-link>
 
 <x-nav-link
     icon="bi-exclamation-triangle-fill"
-    href="{{ route('gejala-table') }}"
-    :active="request()->routeIs('gejala-table')"
+    href="{{ route('pengguna-table') }}"
+    :active="request()->routeIs('pengguna-table')"
 >
-    Daftar Gejala
+    Daftar Pengguna
 </x-nav-link>
 
 <x-nav-link
-    icon="bi-kanban-fill"
-    href="{{ route('rule-table') }}"
-    :active="request()->routeIs('rule-table')"
+    icon="bi-exclamation-triangle-fill"
+    href="{{ route('ranking') }}"
+    :active="request()->routeIs('ranking')"
 >
-    Aturan Diagnosa
+                        Ranking
 </x-nav-link>
+
+<x-nav-link
+    icon="bi-exclamation-triangle-fill"
+    href="{{ route('alternatif') }}"
+    :active="request()->routeIs('alternatif')"
+>
+                        Alternatif
+</x-nav-link>
+                        @elseif(auth('pengguna')->user()->role === \App\Enums\Role::KEPALASEKOLAH)
 
                             <li class="sidebar-title">Laporan</li>
+
 <x-nav-link
-    icon="bi-journal-text"
-    href="{{ route('riwayat-konsultasi-table') }}"
-    :active="request()->routeIs('riwayat-konsultasi-table')"
+    icon="bi-exclamation-triangle-fill"
+    href="{{ route('laporan-hasil-seleksi-page') }}"
+    :active="request()->routeIs('laporan-hasil-seleksi-page')"
 >
-                        Riwayat Konsultasi
+                        Laporan Hasil Seleksi
 </x-nav-link>
+
+                        @endif
+
+                        @endif
+
+
+                        @if (auth('siswa')->check())
+
+<x-nav-link
+    icon="bi-exclamation-triangle-fill"
+    href="{{ route('hasil-seleksi') }}"
+    :active="request()->routeIs('hasil-seleksi')"
+>
+                        Hasil Seleksi
+</x-nav-link>
+
+                        @endif
+
+
+
+
+
+
 
 
 

@@ -1,275 +1,161 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistem pakar berbasis AI untuk diagnosis penyakit tanaman coklat dengan cepat dan akurat.">
-    <meta name="keywords" content="tanaman coklat, diagnosis penyakit, kakao, cacao care, sistem pakar">
-    <title>CacaoCare - Sistem Pakar Diagnosa Tanaman Coklat</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <style>
-        :root {
-            --primary-color: #D4A373;  /* Warm brown */
-            --secondary-color: #588157; /* Fresh green */
-            --accent-color: #E76F51;   /* Coral orange */
-            --light-bg: #FEFAE0;       /* Soft cream */
-            --dark-text: #283618;      /* Dark green */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMAN 1 Tanggetada - Admin App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      background: url('https://images.unsplash.com/photo-1516321497487-e288fb19713f') no-repeat center center/cover;
+      background-attachment: fixed;
+      position: relative;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--dark-text);
-            scroll-behavior: smooth; /* Tambah smooth scroll */
-        }
+    /* Overlay untuk seluruh halaman */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 0;
+    }
 
-        .navbar-custom {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-        }
+    /* Konten di atas overlay */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
 
-        .navbar-custom .navbar-brand {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
+    /* Navbar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 2;
+    }
+    .navbar a {
+      color: #fff !important;
+      font-weight: 500;
+    }
+    .navbar a:hover {
+      color: #0dcaf0 !important;
+    }
 
-        .navbar-custom .nav-link {
-            color: var(--dark-text) !important;
-            font-weight: 500;
-        }
+    /* Hero Section (tanpa background, biar ikut body) */
+    .hero-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero-content {
+      animation: fadeInUp 1.2s ease;
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    }
+    .hero-content p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+    .hero-btn {
+      background: #0d6efd;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      border-radius: 50px;
+      transition: all 0.3s;
+    }
+    .hero-btn:hover {
+      background: #0b5ed7;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
 
-        .navbar-custom .nav-link:hover {
-            color: var(--accent-color) !important;
-        }
+    /* Section umum */
+    .section {
+      padding: 80px 0;
+    }
 
-        .hero-section {
-            background-color: var(--light-bg);
-            color: var(--dark-text);
-            padding: 120px 0;
-        }
+    /* Card/box dengan background putih transparan */
+    .glass-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      color: #fff;
+    }
 
-        .btn-primary {
-            background-color: var(--accent-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.6);
+      color: #ccc;
+      padding: 25px 0;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
 
-        .btn-primary:hover {
-            background-color: #d15a3c;
-            transform: translateY(-2px);
-        }
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .disease-card {
-            border-radius: 15px;
-            border: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            background-color: white;
-        }
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+    }
 
-        .disease-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .disease-card img {
-            border-radius: 15px 15px 0 0;
-            object-fit: cover;
-            height: 200px;
-        }
-
-        .cta-section {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 80px 0;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--dark-text);
-        }
-
-        .card-title {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        footer {
-            background-color: var(--dark-text);
-            color: white;
-            padding: 60px 0;
-        }
-
-        /* Modern Utilities */
-        .shadow-custom {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .rounded-custom {
-            border-radius: 15px;
-        }
-
-        /* Animasi */
-        .fade-up {
-            animation: fadeUp 0.5s ease-out;
-            opacity: 0; /* Mulai dari invisible */
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Tambah observer buat animasi on scroll */
-        .fade-up.visible {
-            opacity: 1;
-        }
-
-        /* Tambahan CSS untuk Login Page */
-        .login-section {
-            background-color: var(--light-bg);
-            padding: 100px 0;
-            min-height: 100vh;
-        }
-
-        .login-card {
-            max-width: 400px;
-            margin: 0 auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            background-color: white;
-            padding: 2rem;
-        }
-
-        .login-card .btn-primary {
-            width: 100%;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid var(--secondary-color);
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 0.25rem rgba(231, 111, 81, 0.25);
-        }
-
-        .login-title {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .disease-card {
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 1rem;
-        }
-        .gejala-card {
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 1rem;
-        }
-    </style>
-        @stack('styles')
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    @stack('styles')
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                🌱 CacaoCare
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing')}}">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('daftar-penyakit')}}">Penyakit</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about-us')}}">Tentang Kami</a>
-                    </li>
+<div class="content-wrapper">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand text-white fw-bold" href="#">SMAN 1 Tanggetada</a>
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="{{ route('landing')}}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('login')}}">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-@auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard')}}">Dashboard</a>
-                    </li>
 
-@else
+  <!-- Dynamic Content -->
+  <main class="container my-5">
+    {{ $slot }}
+  </main>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login')}}" wire:navigate>Login</a>
-                    </li>
-@endauth
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 SMAN 1 Tanggetada. All rights reserved. | <a href="#">Privacy Policy</a></p>
+    </div>
+  </footer>
+</div>
 
-        {{ $slot }}
-
-    <!-- Footer -->
-    <footer id="kontak">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>CacaoCare</h5>
-                    <p>Sistem pakar untuk diagnosis penyakit tanaman coklat.</p>
-                </div>
-                <!-- <div class="col-md-6 text-md-end"> -->
-                <!--     <p>© 2025 CacaoCare. All rights reserved.</p> -->
-                <!--     <div class="social-links mt-2"> -->
-                <!--         <a href="#" class="text-white me-3">Facebook</a> -->
-                <!--         <a href="#" class="text-white me-3">Instagram</a> -->
-                <!--         <a href="#" class="text-white">Email</a> -->
-                <!--     </div> -->
-                <!-- </div> -->
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Script buat animasi on scroll -->
-    <script>
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        });
-
-        document.querySelectorAll('.fade-up').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

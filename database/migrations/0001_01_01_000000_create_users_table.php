@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('role', Role::values());
             $table->timestamp('email_verified_at')->nullable();
             $table->string('photo')->nullable();
-            $table->string('password');
+            $table->string('password')->default(bcrypt('password123'));
             $table->rememberToken();
             $table->timestamps();
         });

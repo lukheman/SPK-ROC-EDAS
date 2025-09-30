@@ -12,7 +12,7 @@ class UpdateCommand extends Command
     public function handle()
     {
         // Informasi aplikasi
-        $appName = 'Nama Aplikasi: CacaoCare';
+        $appName = 'Nama Aplikasi: SPK-ROC-EDAC';
         $author = 'Dibuat oleh: Lukmanul Rahman (Akmal)';
         // $license = 'Lisensi: Tidak untuk dijual kembali';
 

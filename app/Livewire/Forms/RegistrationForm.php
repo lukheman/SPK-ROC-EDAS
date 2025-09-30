@@ -4,27 +4,48 @@ namespace App\Livewire\Forms;
 
 use App\Enums\Role;
 use App\Models\User;
-use Livewire\Attributes\Rule;
 use Livewire\Form;
 
 use function redirect;
 
 class RegistrationForm extends Form
 {
-    #[Rule(['required', 'max:50'])]
     public string $name = '';
-
-    #[Rule(['required', 'email'])]
     public string $email = '';
-
-    #[Rule(['required', 'min:4', 'confirmed'])]
     public string $password = '';
-
-    #[Rule('required')]
     public string $password_confirmation = '';
+
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'max:50'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:4', 'confirmed'],
+            'password_confirmation' => ['required'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama maksimal :max karakter.',
+
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal :min karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+
+            'password_confirmation.required' => 'Konfirmasi password wajib diisi.',
+        ];
+    }
 
     public function store()
     {
+        $this->validate();
 
         User::create([
             'name' => $this->name,
@@ -34,6 +55,5 @@ class RegistrationForm extends Form
         ]);
 
         return redirect()->route('pasien.dashboard');
-
     }
 }

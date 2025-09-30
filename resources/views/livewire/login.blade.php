@@ -1,39 +1,78 @@
-    <!-- Login Section -->
-    <section class="login-section">
-        <div class="container">
-            <div class="row align-items-center">
+@push('styles')
 
-                <!-- Bagian Kanan: Login Card Lama -->
-                <div class="col-md-6" style="animation-delay: 0.2s;">
-                    <div class="login-card">
-                        <h2 class="login-title text-center mb-4">Login ke CacaoCare</h2>
-                        <x-flash-message />
-                        <form wire:submit="submit">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input wire:model="email" type="email" class="form-control" id="email" name="email">
-                                @error('email')
-                                    <small class="d-block mt-1 text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input wire:model="password" type="password" class="form-control" id="password" name="password">
-                                @error('password')
-                                    <small class="d-block mt-1 text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </form>
-                    </div>
-                </div>
+<style>
+/* Glass effect untuk card login */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+.glass-card input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+</style>
 
-                <!-- Bagian Kiri: Deskripsi -->
-                <div class="col-md-6">
-                    <h3 class="section-title mb-4">CacaoCare</h3>
-                    <p><b>CacaoCare</b> adalah aplikasi berbasis web yang membantu petani mendiagnosis hama dan penyakit tanaman kakao berdasarkan gejala yang muncul. Dengan dukungan metode Forward Chaining dan Dempster-Shafer, sistem ini memberikan solusi cepat dan akurat, terutama bagi petani yang sulit mengakses penyuluh pertanian. Kami hadir untuk mempermudah perawatan tanaman kakao secara mandiri dan berkelanjutan.</p>
-                    <a href="{{ route('konsultasi')}}" class="btn btn-primary mt-3" wire:navigate>Mulai Konsultasi</a>
-                </div>
+@endpush
+<!-- Login Section -->
+<section id="login" class="section">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold text-white">Masuk Ke Aplikasi</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <!-- Glass Card -->
+<div class="glass-card p-4 animate__animated animate__fadeInUp">
+    <div class="card-body">
+        <x-flash-message />
+        <form wire:submit.prevent="submit">
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label fw-semibold text-white">
+                    <i class="bi bi-envelope-fill me-1 text-info"></i> Email
+                </label>
+                <input type="text" class="form-control form-control-lg rounded-3 bg-transparent text-white border-light"
+                       id="email" wire:model="identifier" placeholder="Masukkan email">
+                @error('identifier')
+                    <small class="text-warning">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-semibold text-white">
+                    <i class="bi bi-lock-fill me-1 text-info"></i> Password
+                </label>
+                <input type="password" class="form-control form-control-lg rounded-3 bg-transparent text-white border-light"
+                       id="password" wire:model="password" placeholder="Masukkan password">
+                @error('password')
+                    <small class="text-warning">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Button Login -->
+            <button type="submit" class="btn btn-info w-100 rounded-pill py-2 fw-semibold text-white mb-2">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+            </button>
+
+            <!-- Link Register -->
+            <div class="text-center mt-3">
+                <span class="text-white">Belum punya akun?</span>
+                <a href="{{ route('register') }}" class="fw-semibold text-info ms-1">
+                    Daftar di sini
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+                <p class="text-center text-light mt-3 small">
+                    &copy; 2025 SMAN 1 Tanggetada
+                </p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+

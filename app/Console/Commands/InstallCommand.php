@@ -47,7 +47,7 @@ class InstallCommand extends Command
         $this->line('php artisan serve');
 
         // Informasi aplikasi
-        $appName = 'Nama Aplikasi: CacaoCare';
+        $appName = 'Nama Aplikasi: SPK-ROC-EDAC';
         $author = 'Dibuat oleh: Lukmanul Rahman (Akmal)';
         // $license = 'Lisensi: Tidak untuk dijual kembali';
 
