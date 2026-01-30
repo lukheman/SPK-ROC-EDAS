@@ -11,7 +11,7 @@
 
       <!-- Main Heading -->
       <h1>
-        Admin App <span>SMAN 1 Tanggetada</span>
+        <span>SMAN 1 Tanggetada</span>
       </h1>
 
       <!-- Description -->
