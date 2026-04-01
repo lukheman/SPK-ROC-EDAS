@@ -13,10 +13,12 @@ class LogoutController extends Controller
     public function __invoke(Request $request)
     {
         // contoh di controller logout
-        if (auth('pengguna')->check()) {
-            auth('pengguna')->logout();
-        } elseif (auth('siswa')->check()) {
+        if(auth('admin')->check()) {
+            auth('admin')->logout();
+        }elseif (auth('siswa')->check()) {
             auth('siswa')->logout();
+        } elseif(auth('kepala_sekolah')->check()) {
+            auth('kepala_sekolah')->logout();
         }
 
         // clear session

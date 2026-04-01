@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'admin'),
     ],
 
     /*
@@ -38,17 +38,23 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'pengguna',
+            'provider' => 'admin',
         ],
         'siswa' => [
             'driver' => 'session',
             'provider' => 'siswa',
         ],
 
-        'pengguna' => [
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'pengguna',
+            'provider' => 'admin'
         ],
+
+        'kepala_sekolah' => [
+            'driver' => 'session',
+            'provider' => 'kepala_sekolah'
+        ]
+
 
     ],
 
@@ -62,7 +68,7 @@ return [
     | system used by the application. Typically, Eloquent is utilized.
     |
     | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
+    | providuers to represent the model / table. These providers may then
     | be assigned to any extra authentication guards you have defined.
     |
     | Supported: "database", "eloquent"
@@ -70,20 +76,20 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => env('AUTH_MODEL', App\Models\User::class),
-        // ],
-
         'siswa' => [
             'driver' => 'eloquent',
             'model' => App\Models\Siswa::class,
         ],
 
-        'pengguna' => [
+        'admin' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Admin::class,
         ],
+
+        'kepala_sekolah' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\KepalaSekolah::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -111,8 +117,14 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'admin' => [
+            'provider' => 'admin',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'kepala_sekolah' => [
+            'provider' => 'kepala_sekolah',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

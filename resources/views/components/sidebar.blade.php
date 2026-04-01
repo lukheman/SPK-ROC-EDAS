@@ -47,8 +47,8 @@
                         <img src="{{ auth()->user()->photo ? asset('storage/' . (auth()->user()->photo ?? '')) : asset('./assets/compiled/jpg/2.jpg') }}">
                         </div>
                         <p class="font-bold ms-3 mb-0">
-                        @if (auth('pengguna')->check())
-                            {{ auth()->user()->role}} - {{ auth()->user()->name }}
+                        @if (auth('admin')->check() || auth('kepala_sekolah')->check())
+                            {{ auth()->user()->name }}
 
                         @elseif(auth('siswa')->check())
                             Siswa - {{ auth()->user()->nama }}
@@ -57,7 +57,7 @@
                             </div>
                             <hr>
 
-                            @if (auth('pengguna')->check())
+                            @if (auth('admin')->check() || auth('kepala_sekolah')->check())
 
 <x-nav-link
     icon="bi-house-door-fill"
@@ -70,13 +70,13 @@
                             @endif
 
 
-                        @if (auth('pengguna')->check())
+                        @if (auth('admin')->check() || auth('kepala_sekolah')->check())
 
 
 
 
                         {{-- ADMIN --}}
-                        @if (auth('pengguna')->user()->role === \App\Enums\Role::ADMIN)
+                        @if (auth('admin')->check())
 
                             <li class="sidebar-title">Navigasi Utama</li>
 
@@ -111,7 +111,7 @@
 >
                         Alternatif
 </x-nav-link>
-                        @elseif(auth('pengguna')->user()->role === \App\Enums\Role::KEPALASEKOLAH)
+                        @elseif(auth('kepala_sekolah')->check())
 
                             <li class="sidebar-title">Laporan</li>
 

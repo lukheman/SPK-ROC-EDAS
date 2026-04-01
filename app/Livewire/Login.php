@@ -36,21 +36,21 @@ class Login extends Component
     {
         $this->validate();
 
-        // Coba login sebagai admin (email + password, guard web)
-        if (Auth::guard('pengguna')->attempt([
-            'email' => $this->identifier,
-            'password' => $this->password,
-        ])) {
-            $user = Auth::guard('pengguna')->user();
-
-
-            flash('Login berhasil');
-            return match ($user->role) {
-                Role::ADMIN => redirect()->to(route('dashboard')),
-                Role::KEPALASEKOLAH => redirect()->to(route('dashboard')),
-                default     => flash('Role tidak valid.', 'danger'),
-            };
-        }
+        // // Coba login sebagai admin (email + password, guard web)
+        // if (Auth::guard('pengguna')->attempt([
+        //     'email' => $this->identifier,
+        //     'password' => $this->password,
+        // ])) {
+        //     $user = Auth::guard('pengguna')->user();
+        //
+        //
+        //     flash('Login berhasil');
+        //     return match ($user->role) {
+        //         Role::ADMIN => redirect()->to(route('dashboard')),
+        //         Role::KEPALASEKOLAH => redirect()->to(route('dashboard')),
+        //         default     => flash('Role tidak valid.', 'danger'),
+        //     };
+        // }
 
         // Coba login sebagai siswa (nim + password, guard siswa)
         if (Auth::guard('siswa')->attempt([
@@ -61,6 +61,30 @@ class Login extends Component
             $redirectUrl = route('hasil-seleksi');
 
             flash('Login berhasil sebagai siswa');
+            return redirect()->to($redirectUrl);
+        }
+
+        // Coba login sebagai admin (email + password, guard admin)
+        if (Auth::guard('admin')->attempt([
+            'email' => $this->identifier,
+            'password' => $this->password,
+        ])) {
+            $siswa = Auth::guard('admin')->user();
+            $redirectUrl = route('dashboard');
+
+            flash('Login berhasil sebagai admin');
+            return redirect()->to($redirectUrl);
+        }
+
+        // Coba login sebagai siswa (email + password, guard kepala sekolah)
+        if (Auth::guard('kepala_sekolah')->attempt([
+            'email' => $this->identifier,
+            'password' => $this->password,
+        ])) {
+            $siswa = Auth::guard('kepala_sekolah')->user();
+            $redirectUrl = route('dashboard');
+
+            flash('Login berhasil sebagai Kepala Sekolah');
             return redirect()->to($redirectUrl);
         }
 

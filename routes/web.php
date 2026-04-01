@@ -18,7 +18,7 @@ Route::get('/logout', Controllers\LogoutController::class)->name('logout');
 // =======================
 // Authenticated Routes
 // =======================
-Route::middleware(MultiAuth::class . ':siswa,pengguna')->group(function () {
+Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(function () {
     Route::get('/profile', Livewire\Profile\Index::class)->name('profile');
     Route::get('/dashboard', Livewire\Dashboard::class)->name('dashboard');
 

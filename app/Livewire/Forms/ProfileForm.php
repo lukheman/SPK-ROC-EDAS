@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Form;
@@ -52,8 +51,9 @@ class ProfileForm extends Form
 
         // Email uniqueness check (manual, karena perlu pengecualian user sendiri)
         if ($this->email !== $user->email) {
-            $emailExists = User::where('email', $this->email)
-                ->where('id', '!=', $user->id)
+            $modelClass = get_class($user);
+            $emailExists = $modelClass::where('email', $this->email)
+                ->where($user->getKeyName(), '!=', $user->getKey())
                 ->exists();
 
             if ($emailExists) {
@@ -64,7 +64,7 @@ class ProfileForm extends Form
             $updates['email'] = $this->email;
         }
 
-        if (! empty($this->password)) {
+        if (!empty($this->password)) {
             $updates['password'] = Hash::make($this->password);
         }
 
@@ -76,7 +76,7 @@ class ProfileForm extends Form
             $updates['photo'] = $path;
         }
 
-        if (! empty($updates)) {
+        if (!empty($updates)) {
             $user->update($updates);
             return true;
         }

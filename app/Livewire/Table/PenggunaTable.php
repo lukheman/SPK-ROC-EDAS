@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Table;
 
-use App\Livewire\Forms\UserForm;
+use App\Livewire\Forms\PenggunaForm;
 use App\Enums\State;
-use App\Models\User;
+use App\Enums\Role;
+use App\Models\Admin;
+use App\Models\KepalaSekolah;
 use App\Traits\WithModal;
 use App\Traits\WithNotify;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -23,13 +26,13 @@ class PenggunaTable extends Component
     public $currentState = State::CREATE;
     public string $idModal = 'modal-form-pengguna';
 
-    public UserForm $form;
+    public PenggunaForm $form;
 
     public string $search = '';
 
-    public function delete($id)
+    public function delete($id, $role)
     {
-        $this->form->user = User::find($id);
+        $this->form->model = $role === Role::ADMIN->value ? Admin::find($id) : KepalaSekolah::find($id);
         $this->dispatch('deleteConfirmation', message: 'Yakin untuk menghapus data pengguna?');
     }
 
@@ -47,19 +50,21 @@ class PenggunaTable extends Component
         $this->openModal($this->idModal);
     }
 
-    public function detail($id) {
+    public function detail($id, $role)
+    {
 
         $this->currentState = State::SHOW;
 
-        $user = User::find($id);
-        $this->form->fillFromModel($user);
+        $model = $role === Role::ADMIN->value ? Admin::find($id) : KepalaSekolah::find($id);
+        $this->form->fillFromModel($model, $role);
         $this->openModal($this->idModal);
 
     }
 
-    public function edit($id) {
+    public function edit($id, $role)
+    {
 
-        $this->detail($id);
+        $this->detail($id, $role);
         $this->currentState = State::UPDATE;
 
     }
@@ -81,15 +86,20 @@ class PenggunaTable extends Component
     }
 
     #[Computed]
-    public function users() {
-        return User::query()
-            ->when($this->search, function($query) {
+    public function users()
+    {
+        $admins = DB::table('admin')->select('id_admin as id', 'nama as name', 'email', DB::raw("'" . Role::ADMIN->value . "' as role"), 'created_at');
+        $kepalas = DB::table('kepala_sekolah')->select('id_kepala_sekolah as id', 'nama as name', 'email', DB::raw("'" . Role::KEPALASEKOLAH->value . "' as role"), 'created_at');
 
-                $query->where('nama', 'like', '%'.$this->search.'%')
-                ->orWhere('nik', 'like', '%'.$this->search.'%');
-            })
-            ->latest()
-            ->paginate(10);
+        $query = $admins->unionAll($kepalas)->orderBy('created_at', 'desc');
+
+        if ($this->search) {
+            $wrapped = DB::table(DB::raw("({$query->toSql()}) as users"))->mergeBindings($query);
+            $wrapped->where('name', 'like', "%{$this->search}%")->orWhere('email', 'like', "%{$this->search}%");
+            return $wrapped->paginate(10);
+        }
+
+        return $query->paginate(10);
     }
 
     public function render()
@@ -97,3 +107,4 @@ class PenggunaTable extends Component
         return view('livewire.table.pengguna-table');
     }
 }
+

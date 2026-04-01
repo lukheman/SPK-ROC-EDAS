@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
+use App\Models\Admin;
+use App\Models\KepalaSekolah;
 use App\Models\Siswa;
 use Illuminate\Database\Seeder;
 
@@ -20,18 +21,14 @@ class DatabaseSeeder extends Seeder
             SiswaSeeder::class
         ]);
 
-        User::factory()->create([
-            'name' => 'Admin',
+        Admin::create([
+            'nama' => 'Admin',
             'email' => 'admin@gmail.com',
-            'role' => Role::ADMIN,
-            'password' => bcrypt('password123'),
         ]);
 
-        User::factory()->create([
-            'name' => 'Kepala Sekolah',
+        KepalaSekolah::create([
+            'nama' => 'Kepala Sekolah',
             'email' => 'kepalasekolah@gmail.com',
-            'role' => Role::KEPALASEKOLAH,
-            'password' => bcrypt('password123'),
         ]);
 
     }

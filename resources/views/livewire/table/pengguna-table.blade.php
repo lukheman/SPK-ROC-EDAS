@@ -121,11 +121,14 @@ use App\Enums\State;
                 <td scope="row">{{ $loop->index + $this->users->firstItem() }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->email }}</td>
-                <td><span class="badge bg-{{$item->role->getColor()}}">{{ $item->role}}</span></td>
+                @php
+                    $roleEnum = \App\Enums\Role::tryFrom($item->role);
+                @endphp
+                <td><span class="badge bg-{{ $roleEnum?->getColor() ?? 'primary' }}">{{ $item->role }}</span></td>
                 <td class="text-end">
-                    <button wire:click="detail({{ $item->id }})" class="btn btn-sm btn-info">Lihat</button>
-                    <button wire:click="edit({{ $item->id }})" class="btn btn-sm btn-warning" type="button">Edit</button>
-                    <button wire:click="delete({{ $item->id }})" class="btn btn-sm btn-danger" type="button">Hapus</button>
+                    <button wire:click="detail({{ $item->id }}, '{{ $item->role }}')" class="btn btn-sm btn-info">Lihat</button>
+                    <button wire:click="edit({{ $item->id }}, '{{ $item->role }}')" class="btn btn-sm btn-warning" type="button">Edit</button>
+                    <button wire:click="delete({{ $item->id }}, '{{ $item->role }}')" class="btn btn-sm btn-danger" type="button">Hapus</button>
                 </td>
             </tr>
         @endforeach
