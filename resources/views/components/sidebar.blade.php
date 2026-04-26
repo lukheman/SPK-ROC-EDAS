@@ -64,7 +64,7 @@
     href="{{ route('dashboard') }}"
     :active="request()->routeIs('dashboard')"
 >
-    Dashbaord
+    Dashboard
 </x-nav-link>
 
                             @endif
@@ -81,7 +81,7 @@
                             <li class="sidebar-title">Navigasi Utama</li>
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-people-fill"
     href="{{ route('siswa-table') }}"
     :active="request()->routeIs('siswa-table')"
 >
@@ -89,7 +89,7 @@
 </x-nav-link>
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-person-badge-fill"
     href="{{ route('pengguna-table') }}"
     :active="request()->routeIs('pengguna-table')"
 >
@@ -97,7 +97,7 @@
 </x-nav-link>
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-trophy-fill"
     href="{{ route('ranking') }}"
     :active="request()->routeIs('ranking')"
 >
@@ -105,7 +105,7 @@
 </x-nav-link>
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-table"
     href="{{ route('alternatif') }}"
     :active="request()->routeIs('alternatif')"
 >
@@ -116,7 +116,7 @@
                             <li class="sidebar-title">Laporan</li>
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-file-earmark-text-fill"
     href="{{ route('laporan-hasil-seleksi-page') }}"
     :active="request()->routeIs('laporan-hasil-seleksi-page')"
 >
@@ -131,7 +131,7 @@
                         @if (auth('siswa')->check())
 
 <x-nav-link
-    icon="bi-exclamation-triangle-fill"
+    icon="bi-clipboard-data-fill"
     href="{{ route('hasil-seleksi') }}"
     :active="request()->routeIs('hasil-seleksi')"
 >
