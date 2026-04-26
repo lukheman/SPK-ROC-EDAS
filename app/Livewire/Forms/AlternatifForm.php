@@ -11,28 +11,34 @@ class AlternatifForm extends Form
 {
     public ?Siswa $siswa = null;
 
-    public ?int $prestasi_akademik = null;
-    public ?int $penghasilan_orang_tua = null;
-    public ?int $tanggungan_orang_tua = null;
+    public ?int $pekerjaan_ayah = null;
+    public ?int $penghasilan_ayah = null;
+    public ?int $pekerjaan_ibu = null;
+    public ?int $penghasilan_ibu = null;
     public ?int $yatim_piatu = null;
+    public ?int $peringkat_kelas = null;
 
     public function rules(): array
     {
         return [
-            'prestasi_akademik'     => 'nullable|integer',
-            'penghasilan_orang_tua' => 'nullable|integer',
-            'tanggungan_orang_tua'  => 'nullable|integer',
-            'yatim_piatu'           => 'nullable|integer',
+            'pekerjaan_ayah'   => 'nullable|integer',
+            'penghasilan_ayah' => 'nullable|integer',
+            'pekerjaan_ibu'    => 'nullable|integer',
+            'penghasilan_ibu'  => 'nullable|integer',
+            'yatim_piatu'      => 'nullable|integer',
+            'peringkat_kelas'  => 'nullable|integer',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'prestasi_akademik.integer'     => 'Nilai prestasi akademik harus berupa angka.',
-            'penghasilan_orang_tua.integer' => 'Nilai penghasilan orang tua harus berupa angka.',
-            'tanggungan_orang_tua.integer'  => 'Jumlah tanggungan orang tua harus berupa angka.',
-            'yatim_piatu.integer'           => 'Nilai yatim piatu harus berupa angka.',
+            'pekerjaan_ayah.integer'   => 'Nilai pekerjaan ayah harus berupa angka.',
+            'penghasilan_ayah.integer' => 'Nilai penghasilan ayah harus berupa angka.',
+            'pekerjaan_ibu.integer'    => 'Nilai pekerjaan ibu harus berupa angka.',
+            'penghasilan_ibu.integer'  => 'Nilai penghasilan ibu harus berupa angka.',
+            'yatim_piatu.integer'      => 'Nilai yatim piatu harus berupa angka.',
+            'peringkat_kelas.integer'  => 'Nilai peringkat kelas harus berupa angka.',
         ];
     }
 
@@ -52,9 +58,13 @@ class AlternatifForm extends Form
     {
         $this->siswa = $siswa;
 
-        $this->prestasi_akademik     = $siswa->alternatif->prestasi_akademik;
-        $this->penghasilan_orang_tua = $siswa->alternatif->penghasilan_orang_tua;
-        $this->tanggungan_orang_tua  = $siswa->alternatif->tanggungan_orang_tua;
-        $this->yatim_piatu           = $siswa->alternatif->yatim_piatu;
+        if ($siswa->alternatif) {
+            $this->pekerjaan_ayah   = $siswa->alternatif->pekerjaan_ayah;
+            $this->penghasilan_ayah = $siswa->alternatif->penghasilan_ayah;
+            $this->pekerjaan_ibu    = $siswa->alternatif->pekerjaan_ibu;
+            $this->penghasilan_ibu  = $siswa->alternatif->penghasilan_ibu;
+            $this->yatim_piatu      = $siswa->alternatif->yatim_piatu;
+            $this->peringkat_kelas  = $siswa->alternatif->peringkat_kelas;
+        }
     }
 }

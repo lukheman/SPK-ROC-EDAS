@@ -33,11 +33,11 @@ use App\Enums\State;
     <div class="row">
         <div class="col-6">
             <div class="form-group">
-                <label for="prestasi_akademik">Prestasi Akademik</label>
-                <input wire:model="form.prestasi_akademik" type="number"
-                    class="form-control" id="prestasi_akademik"
+                <label for="pekerjaan_ayah">Pekerjaan Ayah</label>
+                <input wire:model="form.pekerjaan_ayah" type="number"
+                    class="form-control" id="pekerjaan_ayah"
                     @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                @error('form.prestasi_akademik')
+                @error('form.pekerjaan_ayah')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -45,11 +45,11 @@ use App\Enums\State;
 
         <div class="col-6">
             <div class="form-group">
-                <label for="penghasilan_orang_tua">Penghasilan Orang Tua</label>
-                <input wire:model="form.penghasilan_orang_tua" type="number"
-                    class="form-control" id="penghasilan_orang_tua"
+                <label for="penghasilan_ayah">Penghasilan Ayah</label>
+                <input wire:model="form.penghasilan_ayah" type="number"
+                    class="form-control" id="penghasilan_ayah"
                     @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                @error('form.penghasilan_orang_tua')
+                @error('form.penghasilan_ayah')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -59,31 +59,57 @@ use App\Enums\State;
     <div class="row mt-2">
         <div class="col-6">
             <div class="form-group">
-                <label for="tanggungan_orang_tua">Tanggungan Orang Tua</label>
-                <input wire:model="form.tanggungan_orang_tua" type="number"
-                    class="form-control" id="tanggungan_orang_tua"
+                <label for="pekerjaan_ibu">Pekerjaan Ibu</label>
+                <input wire:model="form.pekerjaan_ibu" type="number"
+                    class="form-control" id="pekerjaan_ibu"
                     @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                @error('form.tanggungan_orang_tua')
+                @error('form.pekerjaan_ibu')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
         </div>
 
-<div class="col-6">
-    <div class="form-group">
-        <label for="yatim_piatu">Yatim Piatu</label>
-        <select wire:model="form.yatim_piatu" id="yatim_piatu"
-                class="form-control"
-                @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-            <option value="">-- Pilih --</option>
-            <option value="100">Ya</option>
-            <option value="50">Tidak</option>
-        </select>
-        @error('form.yatim_piatu')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
+        <div class="col-6">
+            <div class="form-group">
+                <label for="penghasilan_ibu">Penghasilan Ibu</label>
+                <input wire:model="form.penghasilan_ibu" type="number"
+                    class="form-control" id="penghasilan_ibu"
+                    @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
+                @error('form.penghasilan_ibu')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="peringkat_kelas">Peringkat Kelas</label>
+                <input wire:model="form.peringkat_kelas" type="number"
+                    class="form-control" id="peringkat_kelas"
+                    @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
+                @error('form.peringkat_kelas')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <label for="yatim_piatu">Yatim Piatu</label>
+                <select wire:model="form.yatim_piatu" id="yatim_piatu"
+                        class="form-control"
+                        @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
+                    <option value="">-- Pilih --</option>
+                    <option value="100">Ya</option>
+                    <option value="50">Tidak</option>
+                </select>
+                @error('form.yatim_piatu')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
     </div>
 </form>
                             </div>

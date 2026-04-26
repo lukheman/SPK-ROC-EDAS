@@ -15,13 +15,13 @@ class SiswaSeeder extends Seeder
   public function run(): void
     {
         $data = [
-            ['nama' => 'Afni', 'prestasi' => 100, 'penghasilan' => 2500000, 'tanggungan' => 2, 'yatim' => 50],
-            ['nama' => 'Suci Ramadani', 'prestasi' => 80,  'penghasilan' => 3000000, 'tanggungan' => 3, 'yatim' => 100],
-            ['nama' => 'Budi', 'prestasi' => 100, 'penghasilan' => 4000000, 'tanggungan' => 1, 'yatim' => 100],
-            ['nama' => 'Izty', 'prestasi' => 80,  'penghasilan' => 5000000, 'tanggungan' => 2, 'yatim' => 50],
-            ['nama' => 'Putri', 'prestasi' => 40, 'penghasilan' => 2500000, 'tanggungan' => 4, 'yatim' => 50],
-            ['nama' => 'Arisa', 'prestasi' => 80, 'penghasilan' => 5000000, 'tanggungan' => 3, 'yatim' => 100],
-            ['nama' => 'Dewi', 'prestasi' => 60, 'penghasilan' => 3000000, 'tanggungan' => 5, 'yatim' => 100],
+            ['nama' => 'Afni', 'pek_ayah' => 2, 'peng_ayah' => 2500000, 'pek_ibu' => 1, 'peng_ibu' => 0, 'yatim' => 50, 'peringkat' => 10],
+            ['nama' => 'Suci Ramadani', 'pek_ayah' => 3, 'peng_ayah' => 3000000, 'pek_ibu' => 2, 'peng_ibu' => 1000000, 'yatim' => 100, 'peringkat' => 8],
+            ['nama' => 'Budi', 'pek_ayah' => 1, 'peng_ayah' => 4000000, 'pek_ibu' => 1, 'peng_ibu' => 0, 'yatim' => 100, 'peringkat' => 1],
+            ['nama' => 'Izty', 'pek_ayah' => 2, 'peng_ayah' => 5000000, 'pek_ibu' => 2, 'peng_ibu' => 2000000, 'yatim' => 50, 'peringkat' => 8],
+            ['nama' => 'Putri', 'pek_ayah' => 4, 'peng_ayah' => 2500000, 'pek_ibu' => 1, 'peng_ibu' => 0, 'yatim' => 50, 'peringkat' => 4],
+            ['nama' => 'Arisa', 'pek_ayah' => 3, 'peng_ayah' => 5000000, 'pek_ibu' => 2, 'peng_ibu' => 1500000, 'yatim' => 100, 'peringkat' => 8],
+            ['nama' => 'Dewi', 'pek_ayah' => 5, 'peng_ayah' => 3000000, 'pek_ibu' => 1, 'peng_ibu' => 0, 'yatim' => 100, 'peringkat' => 6],
         ];
 
         foreach ($data as $d) {
@@ -36,11 +36,13 @@ class SiswaSeeder extends Seeder
             ]);
 
             ModelAlternatif::create([
-                'id_siswa'              => $siswa->id_siswa,
-                'prestasi_akademik'     => $d['prestasi'],
-                'penghasilan_orang_tua' => $d['penghasilan'],
-                'tanggungan_orang_tua'  => $d['tanggungan'],
-                'yatim_piatu'           => $d['yatim'],
+                'id_siswa'         => $siswa->id_siswa,
+                'pekerjaan_ayah'   => $d['pek_ayah'],
+                'penghasilan_ayah' => $d['peng_ayah'],
+                'pekerjaan_ibu'    => $d['pek_ibu'],
+                'penghasilan_ibu'  => $d['peng_ibu'],
+                'yatim_piatu'      => $d['yatim'],
+                'peringkat_kelas'  => $d['peringkat'],
             ]);
         }
     }

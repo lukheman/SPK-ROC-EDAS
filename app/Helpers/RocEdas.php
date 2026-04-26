@@ -6,22 +6,21 @@ use App\Models\Siswa;
 
 class RocEdas {
 
-    public $avg_prestasi_akademik;
-    public $avg_penghasilan_orang_tua;
-    public $avg_tanggungan_orang_tua;
+    public $avg_pekerjaan_ayah;
+    public $avg_penghasilan_ayah;
+    public $avg_pekerjaan_ibu;
+    public $avg_penghasilan_ibu;
     public $avg_yatim_piatu;
+    public $avg_peringkat_kelas;
 
     public $siswaList;
 
-    public $avgw1; // prestasi_akademik
-    public $avgw2; // penghasilan_orang_tua
-    public $avgw3; // tanggungan_orang_tua
-    public $avgw4; // yatim_piatu
-
-    // public $avg_prestasi_akademik;
-    // public $avg_penghasilan_orang_tua;
-    // public $avg_tanggungan_orang_tua;
-    // public $avg_yatim_piatu;
+    public $avgw1; // pekerjaan_ayah
+    public $avgw2; // penghasilan_ayah
+    public $avgw3; // pekerjaan_ibu
+    public $avgw4; // penghasilan_ibu
+    public $avgw5; // yatim_piatu
+    public $avgw6; // peringkat_kelas
 
     public function __construct()
     {
@@ -43,14 +42,14 @@ class RocEdas {
         return $this->siswaList;
     }
 
-    // rata-rata nilai kriteri
+    // rata-rata nilai kriteria
     private function rata_rata_kriteria() {
-        $this->avg_prestasi_akademik = $this->average(Alternatif::query()->pluck('prestasi_akademik')->toArray());
-        $this->avg_penghasilan_orang_tua = $this->average(Alternatif::query()->pluck('penghasilan_orang_tua')->toArray());
-        $this->avg_tanggungan_orang_tua = $this->average(Alternatif::query()->pluck('tanggungan_orang_tua')->toArray());
-        $this->avg_yatim_piatu= $this->average(Alternatif::query()->pluck('yatim_piatu')->toArray());
-
-        // dd($this->avg_prestasi_akademik, $this->avg_penghasilan_orang_tua, $this->avg_tanggungan_orang_tua, $this->avg_yatim_piatu);
+        $this->avg_pekerjaan_ayah   = $this->average(Alternatif::query()->pluck('pekerjaan_ayah')->toArray() ?: [0]);
+        $this->avg_penghasilan_ayah = $this->average(Alternatif::query()->pluck('penghasilan_ayah')->toArray() ?: [0]);
+        $this->avg_pekerjaan_ibu    = $this->average(Alternatif::query()->pluck('pekerjaan_ibu')->toArray() ?: [0]);
+        $this->avg_penghasilan_ibu  = $this->average(Alternatif::query()->pluck('penghasilan_ibu')->toArray() ?: [0]);
+        $this->avg_yatim_piatu      = $this->average(Alternatif::query()->pluck('yatim_piatu')->toArray() ?: [0]);
+        $this->avg_peringkat_kelas  = $this->average(Alternatif::query()->pluck('peringkat_kelas')->toArray() ?: [0]);
     }
 
     // rata-rata jarak positif tiap kriteria
@@ -59,10 +58,12 @@ class RocEdas {
         foreach($this->siswaList as $siswa) {
 
             // pda
-            $siswa->pda_prestasi_akademik = $this->PDA($this->avg_prestasi_akademik, $siswa->alternatif->prestasi_akademik);
-            $siswa->pda_penghasilan_orang_tua = $this->PDA($this->avg_penghasilan_orang_tua, $siswa->alternatif->penghasilan_orang_tua);
-            $siswa->pda_tanggungan_orang_tua = $this->PDA($this->avg_tanggungan_orang_tua, $siswa->alternatif->tanggungan_orang_tua);
-            $siswa->pda_yatim_piatu = $this->PDA($this->avg_yatim_piatu, $siswa->alternatif->yatim_piatu);
+            $siswa->pda_pekerjaan_ayah   = $this->PDA($this->avg_pekerjaan_ayah, $siswa->alternatif->pekerjaan_ayah);
+            $siswa->pda_penghasilan_ayah = $this->PDA($this->avg_penghasilan_ayah, $siswa->alternatif->penghasilan_ayah);
+            $siswa->pda_pekerjaan_ibu    = $this->PDA($this->avg_pekerjaan_ibu, $siswa->alternatif->pekerjaan_ibu);
+            $siswa->pda_penghasilan_ibu  = $this->PDA($this->avg_penghasilan_ibu, $siswa->alternatif->penghasilan_ibu);
+            $siswa->pda_yatim_piatu      = $this->PDA($this->avg_yatim_piatu, $siswa->alternatif->yatim_piatu);
+            $siswa->pda_peringkat_kelas  = $this->PDA($this->avg_peringkat_kelas, $siswa->alternatif->peringkat_kelas);
 
        }
 
@@ -72,19 +73,23 @@ class RocEdas {
     private function pembobotan_nda() {
 
         foreach($this->siswaList as $siswa) {
-            $siswa->nda_prestasi_akademik = $this->NDA($this->avg_prestasi_akademik, $siswa->alternatif->prestasi_akademik);
-            $siswa->nda_penghasilan_orang_tua = $this->NDA($this->avg_penghasilan_orang_tua, $siswa->alternatif->penghasilan_orang_tua);
-            $siswa->nda_tanggungan_orang_tua = $this->NDA($this->avg_tanggungan_orang_tua, $siswa->alternatif->tanggungan_orang_tua);
-            $siswa->nda_yatim_piatu = $this->NDA($this->avg_yatim_piatu, $siswa->alternatif->yatim_piatu);
+            $siswa->nda_pekerjaan_ayah   = $this->NDA($this->avg_pekerjaan_ayah, $siswa->alternatif->pekerjaan_ayah);
+            $siswa->nda_penghasilan_ayah = $this->NDA($this->avg_penghasilan_ayah, $siswa->alternatif->penghasilan_ayah);
+            $siswa->nda_pekerjaan_ibu    = $this->NDA($this->avg_pekerjaan_ibu, $siswa->alternatif->pekerjaan_ibu);
+            $siswa->nda_penghasilan_ibu  = $this->NDA($this->avg_penghasilan_ibu, $siswa->alternatif->penghasilan_ibu);
+            $siswa->nda_yatim_piatu      = $this->NDA($this->avg_yatim_piatu, $siswa->alternatif->yatim_piatu);
+            $siswa->nda_peringkat_kelas  = $this->NDA($this->avg_peringkat_kelas, $siswa->alternatif->peringkat_kelas);
         }
     }
 
     private function pembobotan_kriteria() {
 
-        $this->w1 = round((1 + 1/2 + 1/3 + 1/4) / 4, 6);
-        $this->w2 = round((0 + 1/2 + 1/3 + 1/4) / 4, 6);
-        $this->w3 = round((0 + 0 + 1/3 + 1/4) / 4, 6);
-        $this->w4 = round((0 + 0 + 0 + 1/4) / 4, 6);
+        $this->w1 = round((1 + 1/2 + 1/3 + 1/4 + 1/5 + 1/6) / 6, 6);
+        $this->w2 = round((0 + 1/2 + 1/3 + 1/4 + 1/5 + 1/6) / 6, 6);
+        $this->w3 = round((0 +   0 + 1/3 + 1/4 + 1/5 + 1/6) / 6, 6);
+        $this->w4 = round((0 +   0 +   0 + 1/4 + 1/5 + 1/6) / 6, 6);
+        $this->w5 = round((0 +   0 +   0 +   0 + 1/5 + 1/6) / 6, 6);
+        $this->w6 = round((0 +   0 +   0 +   0 +   0 + 1/6) / 6, 6);
 
     }
 
@@ -93,23 +98,27 @@ class RocEdas {
         $sps = [];
 
         foreach($this->siswaList as $siswa) {
-            $avgw1 = round($siswa->pda_prestasi_akademik * $this->w1, 6);
-            $avgw2 = round($siswa->pda_penghasilan_orang_tua * $this->w2, 6);
-            $avgw3 = round($siswa->pda_tanggungan_orang_tua * $this->w3, 6);
-            $avgw4 = round($siswa->pda_yatim_piatu * $this->w4, 6);
+            $avgw1 = round($siswa->pda_pekerjaan_ayah * $this->w1, 6);
+            $avgw2 = round($siswa->pda_penghasilan_ayah * $this->w2, 6);
+            $avgw3 = round($siswa->pda_pekerjaan_ibu * $this->w3, 6);
+            $avgw4 = round($siswa->pda_penghasilan_ibu * $this->w4, 6);
+            $avgw5 = round($siswa->pda_yatim_piatu * $this->w5, 6);
+            $avgw6 = round($siswa->pda_peringkat_kelas * $this->w6, 6);
 
-            $siswa->sp_prestasi_akademik = $avgw1;
-            $siswa->sp_penghasilan_orang_tua = $avgw2;
-            $siswa->sp_tanggungan_orang_tua = $avgw3;
-            $siswa->sp_yatim_piatu = $avgw4;
+            $siswa->sp_pekerjaan_ayah   = $avgw1;
+            $siswa->sp_penghasilan_ayah = $avgw2;
+            $siswa->sp_pekerjaan_ibu    = $avgw3;
+            $siswa->sp_penghasilan_ibu  = $avgw4;
+            $siswa->sp_yatim_piatu      = $avgw5;
+            $siswa->sp_peringkat_kelas  = $avgw6;
 
             // jumlahkan setiap nilai kriteria jarak positif
-            $siswa->hasil_penjumlahan_jarak_positif = round($avgw1 + $avgw2 + $avgw3 + $avgw4, 6);
+            $siswa->hasil_penjumlahan_jarak_positif = round($avgw1 + $avgw2 + $avgw3 + $avgw4 + $avgw5 + $avgw6, 6);
             array_push($sps, $siswa->hasil_penjumlahan_jarak_positif);
 
         }
 
-        $this->max_sp = max($sps);
+        $this->max_sp = count($sps) > 0 ? max($sps) : 1;
 
     }
 
@@ -118,23 +127,27 @@ class RocEdas {
         $sns = [];
 
         foreach($this->siswaList as $siswa) {
-            $avgw1 = round($siswa->nda_prestasi_akademik * $this->w1, 6);
-            $avgw2 = round($siswa->nda_penghasilan_orang_tua * $this->w2, 6);
-            $avgw3 = round($siswa->nda_tanggungan_orang_tua * $this->w3, 6);
-            $avgw4 = round($siswa->nda_yatim_piatu * $this->w4, 6);
+            $avgw1 = round($siswa->nda_pekerjaan_ayah * $this->w1, 6);
+            $avgw2 = round($siswa->nda_penghasilan_ayah * $this->w2, 6);
+            $avgw3 = round($siswa->nda_pekerjaan_ibu * $this->w3, 6);
+            $avgw4 = round($siswa->nda_penghasilan_ibu * $this->w4, 6);
+            $avgw5 = round($siswa->nda_yatim_piatu * $this->w5, 6);
+            $avgw6 = round($siswa->nda_peringkat_kelas * $this->w6, 6);
 
-            $siswa->np_prestasi_akademik = $avgw1;
-            $siswa->np_penghasilan_orang_tua = $avgw2;
-            $siswa->np_tanggungan_orang_tua = $avgw3;
-            $siswa->np_yatim_piatu = $avgw4;
+            $siswa->np_pekerjaan_ayah   = $avgw1;
+            $siswa->np_penghasilan_ayah = $avgw2;
+            $siswa->np_pekerjaan_ibu    = $avgw3;
+            $siswa->np_penghasilan_ibu  = $avgw4;
+            $siswa->np_yatim_piatu      = $avgw5;
+            $siswa->np_peringkat_kelas  = $avgw6;
 
             // jumlahkan setiap nilai kriteria jarak negatif
-            $siswa->hasil_penjumlahan_jarak_negatif = round($avgw1 + $avgw2 + $avgw3 + $avgw4, 6);
+            $siswa->hasil_penjumlahan_jarak_negatif = round($avgw1 + $avgw2 + $avgw3 + $avgw4 + $avgw5 + $avgw6, 6);
             array_push($sns, $siswa->hasil_penjumlahan_jarak_negatif);
 
         }
 
-        $this->max_sn = max($sns);
+        $this->max_sn = count($sns) > 0 ? max($sns) : 1;
 
     }
 
@@ -166,13 +179,13 @@ class RocEdas {
     }
 
     // rata-rata jarak positif
-    private  function PDA(float $avg, float $number): float {
-        return round(($number - $avg) / $avg, 6);
+    private  function PDA(float $avg, float $number = 0): float {
+        return $avg == 0 ? 0 : round(($number - $avg) / $avg, 6);
     }
 
     // rata-rata jarak negatif
-    private  function NDA(float $avg, float $number): float {
-        return round(($avg - $number) / $avg, 6);
+    private  function NDA(float $avg, float $number = 0): float {
+        return $avg == 0 ? 0 : round(($avg - $number) / $avg, 6);
     }
 
     private function normalized(float $number, float $max): float {

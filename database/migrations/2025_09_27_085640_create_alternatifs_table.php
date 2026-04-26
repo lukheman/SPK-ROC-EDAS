@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('alternatif', function (Blueprint $table) {
             $table->id('id_alternatif');
             $table->foreignId('id_siswa')->constrained('siswa', 'id_siswa')->cascadeOnDelete();
-            $table->integer('prestasi_akademik')->nullable()->default(0);
-            $table->integer('penghasilan_orang_tua')->nullable()->default(0);
-            $table->integer('tanggungan_orang_tua')->nullable()->default(0);
+            $table->integer('pekerjaan_ayah')->nullable()->default(0);
+            $table->integer('penghasilan_ayah')->nullable()->default(0);
+            $table->integer('pekerjaan_ibu')->nullable()->default(0);
+            $table->integer('penghasilan_ibu')->nullable()->default(0);
             $table->integer('yatim_piatu')->nullable()->default(0);
+            $table->integer('peringkat_kelas')->nullable()->default(0);
             $table->timestamps();
         });
     }
