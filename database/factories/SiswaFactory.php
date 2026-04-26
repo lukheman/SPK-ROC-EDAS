@@ -19,7 +19,6 @@ class SiswaFactory extends Factory
         return [
             'nisn'            => $this->faker->unique()->numerify('################'), // 16 digit NIK
             'nama'           => $this->faker->name(),
-            'status_ekonomi' => $this->faker->randomElement(['Mampu', 'Tidak Mampu', 'Menengah']),
             'phone'          => $this->faker->phoneNumber(),
             'jenis_kelamin'  => $this->faker->randomElement(['L', 'P']),
             'alamat'         => $this->faker->address(),

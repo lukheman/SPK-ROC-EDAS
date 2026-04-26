@@ -25,6 +25,9 @@ Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(funct
     // Master Data
     Route::get('/pengguna', Livewire\Table\PenggunaTable::class)->name('pengguna-table');
     Route::get('/siswa', Livewire\Table\SiswaTable::class)->name('siswa-table');
+    Route::get('/siswa/export', [Controllers\SiswaExcelController::class, 'export'])->name('siswa-export');
+    Route::get('/siswa/template', [Controllers\SiswaExcelController::class, 'template'])->name('siswa-template');
+    Route::post('/siswa/import', [Controllers\SiswaExcelController::class, 'import'])->name('siswa-import');
     Route::get('/ranking', Livewire\Table\Ranking::class)->name('ranking');
     Route::get('/alternatif', Livewire\Table\AlternatifTable::class)->name('alternatif');
 

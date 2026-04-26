@@ -27,10 +27,6 @@
                         <input type="text" id="nama" class="form-control" value="{{ $user->nama }}" readonly>
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label for="status_ekonomi" class="form-label">Status Ekonomi</label>
-                        <input type="text" id="status_ekonomi" class="form-control" value="{{ $user->status_ekonomi }}" readonly>
-                    </div>
 
                     <div class="form-group mb-2">
                         <label for="phone" class="form-label">No. HP</label>

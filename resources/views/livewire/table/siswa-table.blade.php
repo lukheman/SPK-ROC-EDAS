@@ -61,17 +61,7 @@ use App\Enums\State;
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <label for="status_ekonomi">Status Ekonomi</label>
-                <input wire:model="form.status_ekonomi" type="text"
-                    class="form-control" id="status_ekonomi"
-                    @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                @error('form.status_ekonomi')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
+
         <div class="col-12">
             <div class="form-group">
                 <label for="phone">Phone</label>
@@ -147,8 +137,52 @@ use App\Enums\State;
                 </div>
             </div>
 
-            <div class="col-6 d-flex justify-content-end">
-                <button wire:click="add" class="btn btn-primary me-3">Tambah Siswa</button>
+            <div class="col-6 d-flex justify-content-end align-items-start flex-wrap gap-2">
+                <a href="{{ route('siswa-template') }}" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-arrow-down"></i> Template
+                </a>
+                <a href="{{ route('siswa-export') }}" class="btn btn-success">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Export
+                </a>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#importModal">
+                    <i class="bi bi-file-earmark-arrow-up"></i> Import
+                </button>
+                <button wire:click="add" class="btn btn-primary">Tambah Siswa</button>
+            </div>
+        </div>
+    </div>
+
+    {{-- Import Modal --}}
+    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg rounded-3">
+                <form action="{{ route('siswa-import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title" id="importModalLabel">
+                            <i class="bi bi-file-earmark-arrow-up"></i> Import Data Siswa
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            Download <a href="{{ route('siswa-template') }}" class="fw-bold">template Excel</a> terlebih dahulu, isi data sesuai format, kemudian upload file-nya di sini.
+                        </div>
+                        <div class="form-group">
+                            <label for="importFile" class="form-label">Pilih File Excel</label>
+                            <input type="file" name="file" id="importFile" class="form-control"
+                                accept=".xlsx,.xls,.csv" required>
+                            <small class="text-muted">Format yang didukung: .xlsx, .xls, .csv (Maks. 10MB)</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-upload"></i> Import
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

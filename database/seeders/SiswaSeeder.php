@@ -28,7 +28,6 @@ class SiswaSeeder extends Seeder
             $siswa = ModelSiswa::create([
                 'nisn'            => fake()->unique()->numerify('3201####'),
                 'nama'           => $d['nama'],
-                'status_ekonomi' => null,
                 'phone'          => fake()->phoneNumber(),
                 'jenis_kelamin'  => 'P', // bisa disesuaikan
                 'alamat'         => 'Alamat ' . $d['nama'],
