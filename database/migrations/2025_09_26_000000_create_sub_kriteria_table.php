@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alternatif', function (Blueprint $table) {
-            $table->id('id_alternatif');
-            $table->foreignId('id_siswa')->constrained('siswa', 'id_siswa')->cascadeOnDelete();
+        Schema::create('sub_kriteria', function (Blueprint $table) {
+            $table->id('id_sub_kriteria');
             $table->foreignId('id_kriteria')->constrained('kriteria', 'id_kriteria')->cascadeOnDelete();
-            $table->integer('nilai')->default(0);
+            $table->string('nama', 100); // label: "Ya", "Tidak", "PNS", dll
+            $table->integer('nilai');     // numeric value assigned to this option
             $table->timestamps();
-
-            $table->unique(['id_siswa', 'id_kriteria']);
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alternatif');
+        Schema::dropIfExists('sub_kriteria');
     }
 };

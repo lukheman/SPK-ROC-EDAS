@@ -65,12 +65,18 @@ class SiswaForm extends Form
             'phone' => $this->phone,
             'jenis_kelamin' => $this->jenis_kelamin,
             'alamat' => $this->alamat,
-            'tanggal_lahir' => $this->tanggal_lahir
+            'tanggal_lahir' => $this->tanggal_lahir,
+            'password' => bcrypt('password123')
         ]);
 
-        $siswa->alternatif()->create([
-            'id_siswa' => $siswa->id_siswa
-        ]);
+        // Create alternatif entries for each kriteria
+        $kriteriaList = \App\Models\Kriteria::all();
+        foreach ($kriteriaList as $kriteria) {
+            $siswa->alternatif()->create([
+                'id_kriteria' => $kriteria->id_kriteria,
+                'nilai'       => 0,
+            ]);
+        }
 
         $this->reset();
     }

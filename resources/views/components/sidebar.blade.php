@@ -85,7 +85,7 @@
     href="{{ route('siswa-table') }}"
     :active="request()->routeIs('siswa-table')"
 >
-    Daftar Siswa
+    Alternatif
 </x-nav-link>
 
 <x-nav-link
@@ -109,7 +109,15 @@
     href="{{ route('alternatif') }}"
     :active="request()->routeIs('alternatif')"
 >
-                        Alternatif
+                        Penilaian
+</x-nav-link>
+
+<x-nav-link
+    icon="bi-list-check"
+    href="{{ route('kriteria') }}"
+    :active="request()->routeIs('kriteria')"
+>
+                        Kriteria
 </x-nav-link>
                         @elseif(auth('kepala_sekolah')->check())
 

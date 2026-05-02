@@ -12,7 +12,7 @@ use Livewire\WithPagination;
 use App\Traits\{WithNotify, WithModal};
 use App\Enums\State;
 
-#[Title('Siswa')]
+#[Title('Alternatif')]
 class SiswaTable extends Component
 {
     use WithPagination;

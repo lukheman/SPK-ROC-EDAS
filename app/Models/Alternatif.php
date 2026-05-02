@@ -15,7 +15,13 @@ class Alternatif extends Model
     protected $guarded = [];
     protected $primaryKey = 'id_alternatif';
 
-    public function siswa(): BelongsTo {
-        return $this->belongsTo(Siswa::class, 'id_siswa', 'id_alternatif');
+    public function siswa(): BelongsTo
+    {
+        return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
+    }
+
+    public function kriteria(): BelongsTo
+    {
+        return $this->belongsTo(Kriteria::class, 'id_kriteria', 'id_kriteria');
     }
 }

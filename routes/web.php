@@ -12,7 +12,7 @@ Route::get('/', Livewire\Landing::class)->name('landing');
 
 // Authentication
 Route::get('/login', Livewire\Login::class)->name('login')->middleware('guest');
-Route::get('/register', Livewire\Register::class)->name('register')->middleware('guest');
+
 Route::get('/logout', Controllers\LogoutController::class)->name('logout');
 
 // =======================
@@ -30,6 +30,7 @@ Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(funct
     Route::post('/siswa/import', [Controllers\SiswaExcelController::class, 'import'])->name('siswa-import');
     Route::get('/ranking', Livewire\Table\Ranking::class)->name('ranking');
     Route::get('/alternatif', Livewire\Table\AlternatifTable::class)->name('alternatif');
+    Route::get('/kriteria', Livewire\Table\KriteriaTable::class)->name('kriteria');
 
     Route::get('/hasil-seleksi', Livewire\HasilSeleksi::class)->name('hasil-seleksi');
 

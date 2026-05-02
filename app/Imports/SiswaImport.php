@@ -2,8 +2,9 @@
 
 namespace App\Imports;
 
-use App\Models\Siswa;
 use App\Models\Alternatif;
+use App\Models\Kriteria;
+use App\Models\Siswa;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 class SiswaImport implements ToModel, WithStartRow
 {
     public int $importedCount = 0;
+
+    protected $kriteriaList;
+
+    public function __construct()
+    {
+        $this->kriteriaList = Kriteria::orderBy('urutan')->get();
+    }
 
     /**
      * Skip the header row.
@@ -23,9 +31,7 @@ class SiswaImport implements ToModel, WithStartRow
     /**
      * Map columns by index:
      * A(0)=nisn, B(1)=nama, C(2)=tanggal_lahir, D(3)=phone,
-     * E(4)=nama(skip), F(5)=pekerjaan_ayah, G(6)=penghasilan_ayah,
-     * H(7)=pekerjaan_ibu, I(8)=penghasilan_ibu, J(9)=yatim_piatu,
-     * K(10)=peringkat_kelas
+     * E(4)..onwards = kriteria values (in urutan order)
      */
     public function model(array $row)
     {
@@ -38,24 +44,24 @@ class SiswaImport implements ToModel, WithStartRow
 
         try {
             $siswa = Siswa::create([
-                'nisn'           => $row[0],
-                'nama'           => $row[1],
-                'tanggal_lahir'  => $this->parseDate($row[2]),
-                'phone'          => $row[3] ?? '',
-                'jenis_kelamin'  => 'P',
-                'alamat'         => '-',
-                'password'       => bcrypt('password123'),
+                'nisn'          => $row[0],
+                'nama'          => $row[1],
+                'tanggal_lahir' => $this->parseDate($row[2]),
+                'phone'         => $row[3] ?? '',
+                'jenis_kelamin' => 'P',
+                'alamat'        => '-',
+                'password'      => bcrypt('password123'),
             ]);
 
-            Alternatif::create([
-                'id_siswa'         => $siswa->id_siswa,
-                'pekerjaan_ayah'   => intval($row[5] ?? 0),
-                'penghasilan_ayah' => intval($row[6] ?? 0),
-                'pekerjaan_ibu'    => intval($row[7] ?? 0),
-                'penghasilan_ibu'  => intval($row[8] ?? 0),
-                'yatim_piatu'      => intval($row[9] ?? 0),
-                'peringkat_kelas'  => intval($row[10] ?? 0),
-            ]);
+            // Kriteria values start from column index 4
+            foreach ($this->kriteriaList as $index => $kriteria) {
+                $colIndex = 4 + $index;
+                Alternatif::create([
+                    'id_siswa'    => $siswa->id_siswa,
+                    'id_kriteria' => $kriteria->id_kriteria,
+                    'nilai'       => intval($row[$colIndex] ?? 0),
+                ]);
+            }
 
             $this->importedCount++;
 

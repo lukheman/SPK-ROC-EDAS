@@ -291,13 +291,7 @@
                     </button>
                 </form>
 
-                <!-- Divider -->
-                <div class="divider">atau</div>
-
                 <!-- Register Link -->
-                <div class="register-link">
-                    Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a>
-                </div>
             </div>
         </div>
     </section>

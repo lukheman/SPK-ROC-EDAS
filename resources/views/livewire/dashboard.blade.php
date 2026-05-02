@@ -1,7 +1,7 @@
 <div class="row">
 
-    <!-- PENYAKIT -->
-    <div class="col-12 col-md-6">
+    <!-- SISWA -->
+    <div class="col-12 col-md-4">
         <div class="card">
             <div class="card-body px-4 py-4-5">
                 <div class="row">
@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <h6 class="text-muted font-semibold">Siswa</h6>
+                        <h6 class="text-muted font-semibold">Alternatif</h6>
                         <h6 class="font-extrabold mb-0">{{ $siswa }}</h6>
                     </div>
                 </div>
@@ -19,8 +19,8 @@
         </div>
     </div>
 
-    <!-- GEJALA -->
-    <div class="col-12 col-md-6">
+    <!-- ALTERNATIF -->
+    <div class="col-12 col-md-4">
         <div class="card">
             <div class="card-body px-4 py-4-5">
                 <div class="row">
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <h6 class="text-muted font-semibold">Alternatif</h6>
+                        <h6 class="text-muted font-semibold">Penilaian</h6>
                         <h6 class="font-extrabold mb-0">{{ $alternatif }}</h6>
                     </div>
                 </div>
@@ -38,10 +38,7 @@
         </div>
     </div>
 
-    <!-- RIWAYAT KONSULTASI -->
-
-    {{--
-
+    <!-- KRITERIA -->
     <div class="col-12 col-md-4">
         <div class="card">
             <div class="card-body px-4 py-4-5">
@@ -52,12 +49,12 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <h6 class="text-muted font-semibold">Riwayat Konsultasi</h6>
-                        <h6 class="font-extrabold mb-0">{{ $riwayatKonsultasi }}</h6>
+                        <h6 class="text-muted font-semibold">Kriteria</h6>
+                        <h6 class="font-extrabold mb-0">{{ $kriteria }}</h6>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    --}}
+
 </div>

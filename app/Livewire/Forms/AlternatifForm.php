@@ -3,68 +3,72 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Alternatif;
+use App\Models\Kriteria;
 use App\Models\Siswa;
-use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class AlternatifForm extends Form
 {
     public ?Siswa $siswa = null;
 
-    public ?int $pekerjaan_ayah = null;
-    public ?int $penghasilan_ayah = null;
-    public ?int $pekerjaan_ibu = null;
-    public ?int $penghasilan_ibu = null;
-    public ?int $yatim_piatu = null;
-    public ?int $peringkat_kelas = null;
+    /** @var array<int, int|null> key = id_kriteria, value = nilai */
+    public array $nilai = [];
 
     public function rules(): array
     {
-        return [
-            'pekerjaan_ayah'   => 'nullable|integer',
-            'penghasilan_ayah' => 'nullable|integer',
-            'pekerjaan_ibu'    => 'nullable|integer',
-            'penghasilan_ibu'  => 'nullable|integer',
-            'yatim_piatu'      => 'nullable|integer',
-            'peringkat_kelas'  => 'nullable|integer',
-        ];
+        $rules = [];
+        foreach (Kriteria::all() as $kriteria) {
+            $rules["nilai.{$kriteria->id_kriteria}"] = 'nullable|integer';
+        }
+        return $rules;
     }
 
     public function messages(): array
     {
-        return [
-            'pekerjaan_ayah.integer'   => 'Nilai pekerjaan ayah harus berupa angka.',
-            'penghasilan_ayah.integer' => 'Nilai penghasilan ayah harus berupa angka.',
-            'pekerjaan_ibu.integer'    => 'Nilai pekerjaan ibu harus berupa angka.',
-            'penghasilan_ibu.integer'  => 'Nilai penghasilan ibu harus berupa angka.',
-            'yatim_piatu.integer'      => 'Nilai yatim piatu harus berupa angka.',
-            'peringkat_kelas.integer'  => 'Nilai peringkat kelas harus berupa angka.',
-        ];
+        $messages = [];
+        foreach (Kriteria::all() as $kriteria) {
+            $messages["nilai.{$kriteria->id_kriteria}.integer"] = "Nilai {$kriteria->nama} harus berupa angka.";
+        }
+        return $messages;
     }
 
     public function store(): void
     {
-        $this->siswa->alternatif()->create($this->validate());
+        $this->validate();
+
+        foreach ($this->nilai as $idKriteria => $value) {
+            Alternatif::updateOrCreate(
+                [
+                    'id_siswa'    => $this->siswa->id_siswa,
+                    'id_kriteria' => $idKriteria,
+                ],
+                [
+                    'nilai' => intval($value ?? 0),
+                ]
+            );
+        }
+
         $this->reset();
     }
 
     public function update(): void
     {
-        $this->siswa->alternatif->update($this->validate());
-        $this->reset();
+        $this->store(); // same logic: upsert
     }
 
     public function fillFromModel(Siswa $siswa): void
     {
         $this->siswa = $siswa;
+        $this->nilai = [];
 
-        if ($siswa->alternatif) {
-            $this->pekerjaan_ayah   = $siswa->alternatif->pekerjaan_ayah;
-            $this->penghasilan_ayah = $siswa->alternatif->penghasilan_ayah;
-            $this->pekerjaan_ibu    = $siswa->alternatif->pekerjaan_ibu;
-            $this->penghasilan_ibu  = $siswa->alternatif->penghasilan_ibu;
-            $this->yatim_piatu      = $siswa->alternatif->yatim_piatu;
-            $this->peringkat_kelas  = $siswa->alternatif->peringkat_kelas;
+        // Initialize all kriteria with 0
+        foreach (Kriteria::orderBy('urutan')->get() as $kriteria) {
+            $this->nilai[$kriteria->id_kriteria] = 0;
+        }
+
+        // Fill existing values
+        foreach ($siswa->alternatif as $alt) {
+            $this->nilai[$alt->id_kriteria] = $alt->nilai;
         }
     }
 }

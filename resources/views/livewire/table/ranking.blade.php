@@ -125,7 +125,6 @@ Download Laporan</a>
                         <th>NISN Siswa</th>
                         <th>Nama Siswa</th>
                         <th>Skor</th>
-                        <th class="text-end">Dinyatakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,8 +134,6 @@ Download Laporan</a>
                             <td>{{ $item->nisn }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->skor }}</td>
-                            <td class="text-end"><span class="badge bg-{{ $item->lolos ? 'success' : 'danger'}}">{{  $item->lolos ? 'LOLOS' : 'TIDAK LOLOS' }}</span></td>
-
                         </tr>
                     @endforeach
                 </tbody>

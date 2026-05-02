@@ -3,24 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\Alternatif;
-use App\Models\Gejala;
-use App\Models\Penyakit;
-use App\Models\RiwayatKonsultasi;
+use App\Models\Kriteria;
 use App\Models\Siswa;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-use App\Helpers\RocEdas;
-
 #[Title('Dashboard')]
 class Dashboard extends Component
 {
-    public $alternatif;
     public $siswa;
+    public $alternatif;
+    public $kriteria;
 
-    public function mount() {
-        $this->penyakit = Siswa::count();
+    public function mount()
+    {
+        $this->siswa = Siswa::count();
         $this->alternatif = Alternatif::count();
+        $this->kriteria = Kriteria::count();
     }
 
     public function render()
