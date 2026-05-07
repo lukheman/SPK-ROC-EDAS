@@ -30,8 +30,8 @@ class SiswaImport implements ToModel, WithStartRow
 
     /**
      * Map columns by index:
-     * A(0)=nisn, B(1)=nama, C(2)=tanggal_lahir, D(3)=phone,
-     * E(4)..onwards = kriteria values (in urutan order)
+     * A(0)=nisn, B(1)=nama, C(2)=tanggal_lahir,
+     * D(3)..onwards = kriteria values (in urutan order)
      */
     public function model(array $row)
     {
@@ -47,7 +47,6 @@ class SiswaImport implements ToModel, WithStartRow
                 'nisn'          => $row[0],
                 'nama'          => $row[1],
                 'tanggal_lahir' => $this->parseDate($row[2]),
-                'phone'         => $row[3] ?? '',
                 'jenis_kelamin' => 'P',
                 'alamat'        => '-',
                 'password'      => bcrypt('password123'),
@@ -55,7 +54,7 @@ class SiswaImport implements ToModel, WithStartRow
 
             // Kriteria values start from column index 4
             foreach ($this->kriteriaList as $index => $kriteria) {
-                $colIndex = 4 + $index;
+                $colIndex = 3 + $index;
                 Alternatif::create([
                     'id_siswa'    => $siswa->id_siswa,
                     'id_kriteria' => $kriteria->id_kriteria,

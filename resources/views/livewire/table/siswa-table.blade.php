@@ -29,7 +29,7 @@ use App\Enums\State;
         <div class="col-4">
             <div class="form-group">
                 <label for="nisn">NISN Siswa</label>
-                <input wire:model="form.nisn" type="text" class="form-control" id="nisn" 
+                <input wire:model="form.nisn" type="text" class="form-control" id="nisn"
 
                     @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
                 @error('form.nisn')
@@ -50,20 +50,6 @@ use App\Enums\State;
         </div>
     </div>
 
-    <div class="row">
-
-        <div class="col-12">
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input wire:model="form.phone" type="text"
-                    class="form-control" id="phone"
-                    @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                @error('form.phone')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-    </div>
 
     {{-- Tambahan field --}}
     <div class="row">

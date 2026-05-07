@@ -44,7 +44,6 @@ class SiswaSeeder extends Seeder
             $siswa = ModelSiswa::create([
                 'nisn'           => fake()->unique()->numerify('3201####'),
                 'nama'           => $d['nama'],
-                'phone'          => fake()->phoneNumber(),
                 'jenis_kelamin'  => 'P',
                 'alamat'         => 'Alamat ' . $d['nama'],
                 'tanggal_lahir'  => fake()->date('Y-m-d', '-15 years'),

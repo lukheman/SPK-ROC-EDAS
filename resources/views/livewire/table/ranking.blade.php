@@ -82,19 +82,6 @@ Download Laporan</a>
                                         </div>
                                     </div>
 
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="nama">Phone</label>
-                                                <input wire:model="form.phone" type="text"
-                                                    class="form-control" id="nama" @if ($currentState === \App\Enums\State::SHOW) disabled @endif>
-                                                @error('form.phone')
-                                                    <small class="text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">

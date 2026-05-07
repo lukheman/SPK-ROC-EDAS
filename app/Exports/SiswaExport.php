@@ -26,7 +26,7 @@ class SiswaExport implements FromCollection, WithHeadings, WithMapping, WithStyl
 
     public function headings(): array
     {
-        $headers = ['nisn', 'nama', 'Tanggal lahir', 'phone'];
+        $headers = ['nisn', 'nama', 'Tanggal lahir'];
 
         foreach ($this->kriteriaList as $kriteria) {
             $headers[] = $kriteria->nama;
@@ -41,7 +41,6 @@ class SiswaExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             $siswa->nisn,
             $siswa->nama,
             $siswa->tanggal_lahir,
-            $siswa->phone,
         ];
 
         foreach ($this->kriteriaList as $kriteria) {

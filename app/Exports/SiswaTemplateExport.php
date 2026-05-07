@@ -18,7 +18,7 @@ class SiswaTemplateExport implements WithHeadings, WithStyles
 
     public function headings(): array
     {
-        $headers = ['nisn', 'nama', 'Tanggal lahir', 'phone'];
+        $headers = ['nisn', 'nama', 'Tanggal lahir'];
 
         foreach ($this->kriteriaList as $kriteria) {
             $headers[] = $kriteria->nama;

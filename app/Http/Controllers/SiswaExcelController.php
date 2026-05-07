@@ -41,9 +41,9 @@ class SiswaExcelController extends Controller
             foreach ($failures as $failure) {
                 $messages[] = "Baris {$failure->row()}: " . implode(', ', $failure->errors());
             }
-            flash()->error('Gagal import: ' . implode(' | ', $messages));
+            flash('Gagal import: ' . implode(' | ', $messages), 'danger');
         } catch (\Exception $e) {
-            flash()->error('Gagal import data: ' . $e->getMessage());
+            flash('Gagal import data: ' . $e->getMessage(), 'danger');
         }
 
         return redirect()->route('siswa-table');

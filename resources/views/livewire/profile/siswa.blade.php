@@ -28,10 +28,6 @@
                     </div>
 
 
-                    <div class="form-group mb-2">
-                        <label for="phone" class="form-label">No. HP</label>
-                        <input type="text" id="phone" class="form-control" value="{{ $user->phone }}" readonly>
-                    </div>
 
                     <div class="form-group mb-2">
                         <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>

@@ -16,8 +16,7 @@ return new class extends Migration
 
             // attribute siswa
             $table->string('nisn', 50);
-            $table->string('nama', 50);
-            $table->string('phone', 20);
+            $table->string('nama', 100);
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->string('alamat',);
             $table->date('tanggal_lahir');
