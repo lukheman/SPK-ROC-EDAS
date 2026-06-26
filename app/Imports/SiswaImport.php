@@ -14,10 +14,12 @@ class SiswaImport implements ToModel, WithStartRow
     public int $importedCount = 0;
 
     protected $kriteriaList;
+    protected string $defaultPassword;
 
     public function __construct()
     {
         $this->kriteriaList = Kriteria::orderBy('urutan')->get();
+        $this->defaultPassword = bcrypt('password123');
     }
 
     /**
@@ -49,7 +51,7 @@ class SiswaImport implements ToModel, WithStartRow
                 'tanggal_lahir' => $this->parseDate($row[2]),
                 'jenis_kelamin' => 'P',
                 'alamat'        => '-',
-                'password'      => bcrypt('password123'),
+                'password'      => $this->defaultPassword,
             ]);
 
             // Kriteria values start from column index 4
