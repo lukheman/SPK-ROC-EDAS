@@ -26,6 +26,43 @@ class SiswaTable extends Component
 
     public string $search = '';
 
+    public array $selected = [];
+    public bool $selectAll = false;
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selected = $this->siswa->pluck('id_siswa')->map(fn($id) => (string) $id)->toArray();
+        } else {
+            $this->selected = [];
+        }
+    }
+
+    public function updatedSelected()
+    {
+        $this->selectAll = count($this->selected) === $this->siswa->count();
+    }
+
+    public function deleteSelected()
+    {
+        if (empty($this->selected)) {
+            $this->notifyError('Pilih data terlebih dahulu!');
+            return;
+        }
+
+        Siswa::whereIn('id_siswa', $this->selected)->delete();
+        $this->selected = [];
+        $this->selectAll = false;
+        $this->notifySuccess('Siswa terpilih berhasil dihapus!');
+    }
+
+    public function deleteAll()
+    {
+        Siswa::query()->delete();
+        $this->selected = [];
+        $this->selectAll = false;
+        $this->notifySuccess('Semua data siswa berhasil dihapus!');
+    }
 
     public function delete($id)
     {

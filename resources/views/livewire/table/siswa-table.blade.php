@@ -114,6 +114,14 @@ use App\Enums\State;
             </div>
 
             <div class="col-6 d-flex justify-content-end align-items-start flex-wrap gap-2">
+                @if(count($selected) > 0)
+                    <button wire:click="deleteSelected" class="btn btn-danger" wire:confirm="Apakah Anda yakin ingin menghapus {{ count($selected) }} data siswa terpilih?">
+                        <i class="bi bi-trash"></i> Hapus Terpilih
+                    </button>
+                @endif
+                <button wire:click="deleteAll" class="btn btn-outline-danger" wire:confirm="Apakah Anda yakin ingin menghapus SEMUA data siswa? Tindakan ini tidak dapat dibatalkan.">
+                    <i class="bi bi-trash"></i> Hapus Semua
+                </button>
                 <a href="{{ route('siswa-template') }}" class="btn btn-outline-success">
                     <i class="bi bi-file-earmark-arrow-down"></i> Template
                 </a>
@@ -168,6 +176,9 @@ use App\Enums\State;
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th style="width: 40px;">
+                            <input type="checkbox" wire:model.live="selectAll" class="form-check-input">
+                        </th>
                         <th>#</th>
                         <th>NISN Siswa</th>
                         <th>Nama Siswa</th>
@@ -175,8 +186,11 @@ use App\Enums\State;
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($this->Siswa as $item)
-                        <tr wire:key="{{ $item->id }}">
+                    @foreach ($this->siswa as $item)
+                        <tr wire:key="{{ $item->id_siswa }}">
+                            <td>
+                                <input type="checkbox" wire:model.live="selected" value="{{ $item->id_siswa }}" class="form-check-input">
+                            </td>
                             <td scope="row">{{ $loop->index + $this->siswa->firstItem() }}</td>
                             <td>{{ $item->nisn }}</td>
                             <td>{{ $item->nama }}</td>
