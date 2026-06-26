@@ -47,7 +47,7 @@ class SiswaImport implements ToModel, WithStartRow
         try {
             $siswa = Siswa::create([
                 'nisn'          => $row[0],
-                'nama'          => $row[1],
+                'nama'          => ucwords(strtolower(trim($row[1]))),
                 'tanggal_lahir' => $this->parseDate($row[2]),
                 'jenis_kelamin' => 'P',
                 'alamat'        => '-',
