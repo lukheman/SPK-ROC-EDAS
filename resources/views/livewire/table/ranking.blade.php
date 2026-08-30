@@ -104,14 +104,162 @@ Download Laporan</a>
     </div>
 
     <div class="card-body">
+        
+        @if(!$laporan)
+        <div class="accordion mb-4" id="accordionCalculation">
+            
+            <!-- Step 1: Bobot Kriteria & Rata-rata -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        1. Bobot ROC & Rata-rata Kriteria (AV)
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionCalculation">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Kode / Nama Kriteria</th>
+                                        <th>Tipe</th>
+                                        <th>Rata-rata (AV)</th>
+                                        <th>Bobot ROC (W)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($kriteriaList as $kriteria)
+                                    <tr>
+                                        <td>{{ $kriteria->nama }}</td>
+                                        <td>{{ ucfirst($kriteria->tipe) }}</td>
+                                        <td>{{ $avgKriteria[$kriteria->id_kriteria] ?? 0 }}</td>
+                                        <td>{{ $bobotROC[$kriteria->id_kriteria] ?? 0 }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Matriks Jarak PDA & NDA -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        2. Matriks Jarak (PDA & NDA)
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionCalculation">
+                    <div class="accordion-body">
+                        <div class="table-responsive mb-3">
+                            <h6 class="fw-bold">Positive Distance from Average (PDA)</h6>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        @foreach($kriteriaList as $kriteria)
+                                        <th>{{ $kriteria->nama }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($siswaList as $siswa)
+                                    <tr>
+                                        <td>{{ $siswa->nama }}</td>
+                                        @foreach($kriteriaList as $kriteria)
+                                        <td>{{ $siswa->pda_values[$kriteria->id_kriteria] ?? 0 }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <h6 class="fw-bold">Negative Distance from Average (NDA)</h6>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        @foreach($kriteriaList as $kriteria)
+                                        <th>{{ $kriteria->nama }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($siswaList as $siswa)
+                                    <tr>
+                                        <td>{{ $siswa->nama }}</td>
+                                        @foreach($kriteriaList as $kriteria)
+                                        <td>{{ $siswa->nda_values[$kriteria->id_kriteria] ?? 0 }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: SP, SN, NSP, NSN -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        3. Perhitungan SP, SN & Normalisasi (NSP, NSN)
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionCalculation">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        <th>SP (Sum PDA*W)</th>
+                                        <th>SN (Sum NDA*W)</th>
+                                        <th>NSP (SP / Max SP)</th>
+                                        <th>NSN (1 - (SN / Max SN) atau SN/Max SN)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($siswaList as $siswa)
+                                    <tr>
+                                        <td>{{ $siswa->nama }}</td>
+                                        <td>{{ $siswa->hasil_penjumlahan_jarak_positif }}</td>
+                                        <td>{{ $siswa->hasil_penjumlahan_jarak_negatif }}</td>
+                                        <td>{{ $siswa->nsp }}</td>
+                                        <td>{{ $siswa->nsn }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Nilai Maksimum</th>
+                                        <th>{{ $max_sp }}</th>
+                                        <th>{{ $max_sn }}</th>
+                                        <th colspan="2"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @endif
+
+        <h5 class="fw-bold mb-3">Hasil Akhir (Ranking)</h5>
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-bordered table-hover">
+                <thead class="table-primary">
                     <tr>
                         <th>#</th>
                         <th>NISN Siswa</th>
                         <th>Nama Siswa</th>
-                        <th>Skor</th>
+                        <th>Skor (AS)</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,6 +269,13 @@ Download Laporan</a>
                             <td>{{ $item->nisn }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->skor }}</td>
+                            <td>
+                                @if(isset($item->lolos) && $item->lolos)
+                                    <span class="badge bg-success">Lolos</span>
+                                @else
+                                    <span class="badge bg-secondary">Tidak Lolos</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
