@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\Alternatif;
 use App\Models\Kriteria;
 use App\Models\Siswa;
 use Illuminate\Support\Collection;
@@ -42,15 +41,14 @@ class RocEdas
     }
 
     /**
-     * Hitung rata-rata nilai per kriteria dari seluruh alternatif.
+     * Hitung rata-rata nilai per kriteria dari seluruh siswa.
      */
     private function rata_rata_kriteria(): void
     {
         foreach ($this->kriteriaList as $kriteria) {
-            $values = Alternatif::query()
-                ->where('id_kriteria', $kriteria->id_kriteria)
-                ->pluck('nilai')
-                ->toArray();
+            $values = $this->siswaList
+                ->map(fn (Siswa $siswa) => $siswa->getNilaiKriteria($kriteria->id_kriteria))
+                ->all();
 
             $this->avgKriteria[$kriteria->id_kriteria] = count($values) > 0
                 ? $this->average($values)
@@ -182,12 +180,13 @@ class RocEdas
 
     /**
      * Normalisasi SP dan SN.
+     * SP besar berarti semakin baik, sedangkan SN besar berarti semakin buruk.
      */
     private function normalisasi_bobot_jarak(): void
     {
         foreach ($this->siswaList as $siswa) {
             $siswa->nsp = round($siswa->hasil_penjumlahan_jarak_positif / $this->max_sp, 6);
-            $siswa->nsn = round($siswa->hasil_penjumlahan_jarak_negatif / $this->max_sn, 6);
+            $siswa->nsn = round(1 - ($siswa->hasil_penjumlahan_jarak_negatif / $this->max_sn), 6);
         }
     }
 
