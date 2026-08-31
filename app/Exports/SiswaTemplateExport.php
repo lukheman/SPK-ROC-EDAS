@@ -3,17 +3,23 @@
 namespace App\Exports;
 
 use App\Models\Kriteria;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SiswaTemplateExport implements WithHeadings, WithStyles
+class SiswaTemplateExport implements FromArray, WithHeadings, WithStyles
 {
     protected $kriteriaList;
 
     public function __construct()
     {
         $this->kriteriaList = Kriteria::orderBy('urutan')->get();
+    }
+
+    public function array(): array
+    {
+        return [];
     }
 
     public function headings(): array
@@ -27,7 +33,7 @@ class SiswaTemplateExport implements WithHeadings, WithStyles
         return $headers;
     }
 
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): ?array
     {
         $kriteriaCount = $this->kriteriaList->count();
         $lastSiswaCol = 'D';

@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Kriteria;
 use App\Models\Siswa;
+use Illuminate\Support\Enumerable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -19,7 +20,7 @@ class SiswaExport implements FromCollection, WithHeadings, WithMapping, WithStyl
         $this->kriteriaList = Kriteria::orderBy('urutan')->get();
     }
 
-    public function collection()
+    public function collection(): Enumerable
     {
         return Siswa::with('alternatif')->get();
     }
@@ -35,7 +36,7 @@ class SiswaExport implements FromCollection, WithHeadings, WithMapping, WithStyl
         return $headers;
     }
 
-    public function map($siswa): array
+    public function map(mixed $siswa): array
     {
         $row = [
             $siswa->nisn,
@@ -50,7 +51,7 @@ class SiswaExport implements FromCollection, WithHeadings, WithMapping, WithStyl
         return $row;
     }
 
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): ?array
     {
         $kriteriaCount = $this->kriteriaList->count();
         $lastSiswaCol = 'D';

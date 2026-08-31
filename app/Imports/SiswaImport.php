@@ -5,9 +5,10 @@ namespace App\Imports;
 use App\Models\Alternatif;
 use App\Models\Kriteria;
 use App\Models\Siswa;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-use Illuminate\Support\Facades\DB;
 
 class SiswaImport implements ToModel, WithStartRow
 {
@@ -35,7 +36,7 @@ class SiswaImport implements ToModel, WithStartRow
      * A(0)=nisn, B(1)=nama, C(2)=tanggal_lahir,
      * D(3)..onwards = kriteria values (in urutan order)
      */
-    public function model(array $row)
+    public function model(array $row): Model|array|null
     {
         // Skip empty rows
         if (empty($row[0]) && empty($row[1])) {
