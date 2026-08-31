@@ -87,13 +87,19 @@ use App\Enums\State;
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered align-middle">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>NISN Siswa</th>
                         <th>Nama Siswa</th>
-                        <th class="text-end">Aksi</th>
+                        @foreach ($this->kriteriaList as $kriteria)
+                            <th class="text-center text-nowrap" style="min-width: 110px;">
+                                {{ $kriteria->nama }}
+                                <span class="badge bg-{{ $kriteria->tipe === 'benefit' ? 'success' : 'warning' }} ms-1" style="font-size: 0.65em;">{{ ucfirst($kriteria->tipe) }}</span>
+                            </th>
+                        @endforeach
+                        <th class="text-end" style="min-width: 110px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,11 +108,24 @@ use App\Enums\State;
                             <td scope="row">{{ $loop->index + $this->siswa->firstItem() }}</td>
                             <td>{{ $item->nisn }}</td>
                             <td>{{ $item->nama }}</td>
-
+                            @foreach ($this->kriteriaList as $kriteria)
+                                @php
+                                    $nilai = $item->getNilaiKriteria($kriteria->id_kriteria);
+                                    $sub = $kriteria->subKriteria->where('nilai', $nilai)->first();
+                                @endphp
+                                <td class="text-center">
+                                    @if ($nilai === 0 && !$sub)
+                                        <span class="text-muted">-</span>
+                                    @elseif ($sub)
+                                        <span>{{ $sub->nama }}</span>
+                                        <small class="text-muted d-block" style="font-size: 0.75em;">Nilai: {{ $nilai }}</small>
+                                    @else
+                                        <span class="badge bg-light text-dark border">{{ $nilai }}</span>
+                                    @endif
+                                </td>
+                            @endforeach
                             <td class="text-end">
-
                                 <button wire:click="alternatif({{ $item->id_siswa }})" class="btn btn-sm btn-info">Beri Nilai</button>
-
                             </td>
                         </tr>
                     @endforeach
