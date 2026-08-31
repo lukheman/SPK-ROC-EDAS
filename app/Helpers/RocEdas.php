@@ -115,12 +115,12 @@ class RocEdas
                 $nilai = $siswa->getNilaiKriteria($kriteria->id_kriteria);
                 $avg = $this->avgKriteria[$kriteria->id_kriteria];
 
-                if ($kriteria->tipe === 'benefit') {
+                /* if ($kriteria->tipe === 'benefit') { */
+                    /* $ndaValues[$kriteria->id_kriteria] = $this->NDA($avg, $nilai); */
+                /* } else { */
+                /*     // Cost: kebalikan */
                     $ndaValues[$kriteria->id_kriteria] = $this->NDA($avg, $nilai);
-                } else {
-                    // Cost: kebalikan
-                    $ndaValues[$kriteria->id_kriteria] = $this->PDA($avg, $nilai);
-                }
+                /* } */
             }
             $siswa->nda_values = $ndaValues;
         }
@@ -149,6 +149,7 @@ class RocEdas
             $sps[] = $siswa->hasil_penjumlahan_jarak_positif;
         }
 
+
         $this->max_sp = count($sps) > 0 ? max($sps) : 1;
         if ($this->max_sp == 0) $this->max_sp = 1;
     }
@@ -166,6 +167,7 @@ class RocEdas
 
             foreach ($this->kriteriaList as $kriteria) {
                 $id = $kriteria->id_kriteria;
+
                 $val = round(($siswa->nda_values[$id] ?? 0) * ($this->bobotROC[$id] ?? 0), 6);
                 $snValues[$id] = $val;
                 $total += $val;
@@ -188,6 +190,7 @@ class RocEdas
         foreach ($this->siswaList as $siswa) {
             $siswa->nsp = round($siswa->hasil_penjumlahan_jarak_positif / $this->max_sp, 6);
             $siswa->nsn = round($siswa->hasil_penjumlahan_jarak_negatif / $this->max_sn, 6);
+
         }
     }
 
@@ -220,6 +223,6 @@ class RocEdas
      */
     private function NDA(float $avg, float $number = 0): float
     {
-        return $avg == 0 ? 0 : round(max(0, ($avg - $number)) / $avg, 6);
+        return round(($avg - $number) / $avg, 6);
     }
 }
