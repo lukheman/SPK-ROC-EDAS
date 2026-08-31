@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Alternatif;
 use App\Models\Kriteria;
 use App\Models\Siswa;
 use Illuminate\Support\Collection;
@@ -41,14 +42,15 @@ class RocEdas
     }
 
     /**
-     * Hitung rata-rata nilai per kriteria dari seluruh siswa.
+     * Hitung rata-rata nilai per kriteria dari seluruh alternatif.
      */
     private function rata_rata_kriteria(): void
     {
         foreach ($this->kriteriaList as $kriteria) {
-            $values = $this->siswaList
-                ->map(fn (Siswa $siswa) => $siswa->getNilaiKriteria($kriteria->id_kriteria))
-                ->all();
+            $values = Alternatif::query()
+                ->where('id_kriteria', $kriteria->id_kriteria)
+                ->pluck('nilai')
+                ->toArray();
 
             $this->avgKriteria[$kriteria->id_kriteria] = count($values) > 0
                 ? $this->average($values)
@@ -91,12 +93,12 @@ class RocEdas
                 $nilai = $siswa->getNilaiKriteria($kriteria->id_kriteria);
                 $avg = $this->avgKriteria[$kriteria->id_kriteria];
 
-                if ($kriteria->tipe === 'benefit') {
-                    $pdaValues[$kriteria->id_kriteria] = $this->PDA($avg, $nilai);
-                } else {
-                    // Cost: kebalikan — semakin kecil semakin baik
-                    $pdaValues[$kriteria->id_kriteria] = $this->NDA($avg, $nilai);
-                }
+                /* if ($kriteria->tipe === 'benefit') { */
+                $pdaValues[$kriteria->id_kriteria] = $this->PDA($avg, $nilai);
+                /* } else { */
+                /*     // Cost: kebalikan — semakin kecil semakin baik */
+                /*     $pdaValues[$kriteria->id_kriteria] = $this->NDA($avg, $nilai); */
+                /* } */
             }
             $siswa->pda_values = $pdaValues;
         }
@@ -180,13 +182,12 @@ class RocEdas
 
     /**
      * Normalisasi SP dan SN.
-     * SP besar berarti semakin baik, sedangkan SN besar berarti semakin buruk.
      */
     private function normalisasi_bobot_jarak(): void
     {
         foreach ($this->siswaList as $siswa) {
             $siswa->nsp = round($siswa->hasil_penjumlahan_jarak_positif / $this->max_sp, 6);
-            $siswa->nsn = round(1 - ($siswa->hasil_penjumlahan_jarak_negatif / $this->max_sn), 6);
+            $siswa->nsn = round($siswa->hasil_penjumlahan_jarak_negatif / $this->max_sn, 6);
         }
     }
 
@@ -211,7 +212,7 @@ class RocEdas
      */
     private function PDA(float $avg, float $number = 0): float
     {
-        return $avg == 0 ? 0 : round(max(0, ($number - $avg)) / $avg, 6);
+        return $avg == 0 ? 0 : round(($number - $avg) / $avg, 6);
     }
 
     /**
