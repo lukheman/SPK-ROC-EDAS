@@ -112,6 +112,7 @@ use App\Enums\State;
                                 @php
                                     $nilai = $item->getNilaiKriteria($kriteria->id_kriteria);
                                     $sub = $kriteria->subKriteria->where('nilai', $nilai)->first();
+                                    $isRupiah = str_contains(strtolower($kriteria->kode ?? ''), 'penghasilan');
                                 @endphp
                                 <td class="text-center">
                                     @if ($nilai === 0 && !$sub)
@@ -120,7 +121,7 @@ use App\Enums\State;
                                         <span>{{ $sub->nama }}</span>
                                         <small class="text-muted d-block" style="font-size: 0.75em;">Nilai: {{ $nilai }}</small>
                                     @else
-                                        <span class="badge bg-light text-dark border">{{ $nilai }}</span>
+                                        <span class="badge bg-light text-dark border">{{ $isRupiah ? rupiah($nilai) : $nilai }}</span>
                                     @endif
                                 </td>
                             @endforeach

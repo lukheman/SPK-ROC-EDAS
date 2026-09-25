@@ -32,6 +32,13 @@ if (! function_exists('getActiveUser')) {
     }
 }
 
+if (! function_exists('rupiah')) {
+    function rupiah(mixed $value): string
+    {
+        return 'Rp' . number_format((float) ($value ?? 0), 0, ',', '.');
+    }
+}
+
 if (! function_exists('getActiveUserId')) {
     function getActiveUserId()
     {
