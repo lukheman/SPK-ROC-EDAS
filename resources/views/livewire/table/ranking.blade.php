@@ -10,7 +10,7 @@ use App\Enums\State;
             <div class="col-6">
 @if ($laporan)
 
-                <a href="{{ route('laporan-hasil-seleksi')}}" wire:click="add" class="btn btn-danger me-3">
+                <a href="{{ route('laporan-rekomendasi')}}" wire:click="add" class="btn btn-danger me-3">
 
 <i class="bi bi-printer"></i>
 Download Laporan</a>
@@ -259,21 +259,24 @@ Download Laporan</a>
                         <th>NISN Siswa</th>
                         <th>Nama Siswa</th>
                         <th>Skor (AS)</th>
-                        <th>Status</th>
+                        <th>Status Seleksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($siswaList as $item)
-                        <tr wire:key="{{ $item->id }}">
+                        <tr wire:key="ranking-{{ $item->id_siswa }}">
                             <td scope="row">{{ $loop->iteration }}</td>
                             <td>{{ $item->nisn }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->skor }}</td>
                             <td>
                                 @if(isset($item->lolos) && $item->lolos)
-                                    <span class="badge bg-success">Lolos</span>
+                                    <span class="badge bg-success">Lolos Seleksi</span>
                                 @else
                                     <span class="badge bg-secondary">Tidak Lolos</span>
+                                @endif
+                                @if(!empty($item->terverifikasi))
+                                    <small class="d-block text-muted">Terverifikasi</small>
                                 @endif
                             </td>
                         </tr>

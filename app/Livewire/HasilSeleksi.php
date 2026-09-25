@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusSeleksi;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use App\Helpers\RocEdas;
@@ -10,6 +11,7 @@ use App\Helpers\RocEdas;
 class HasilSeleksi extends Component
 {
     public ?bool $lolos;
+    public bool $terverifikasi = false;
 
     public function mount() {
 
@@ -17,11 +19,19 @@ class HasilSeleksi extends Component
 
         $siswa = getActiveUser();
 
+        // ambil data terbaru termasuk status seleksi verifikasi
+        $siswaFresh = \App\Models\Siswa::find($siswa->id_siswa);
+        $tersimpan = StatusSeleksi::fromMixed($siswaFresh->status_seleksi ?? null);
+        $this->terverifikasi = $tersimpan !== null;
+
         $roc_edas = new RocEdas();
         $siswaLolos = $roc_edas->ranking();
-        $siswaLolos = $siswaLolos->sortByDesc('skor')->values()->take(3);
+        $siswaLolos = $siswaLolos->sortByDesc('skor')->values()->take(RocEdas::JUMLAH_LOLOS);
 
-        $this->lolos = $siswaLolos->contains('id_siswa', $siswa->id_siswa);
+        $rekomendasiLolos = $siswaLolos->contains('id_siswa', $siswa->id_siswa);
+
+        // Status efektif: verifikasi manual jika ada, jika belum ikut rekomendasi ranking
+        $this->lolos = StatusSeleksi::efektif($tersimpan, $rekomendasiLolos) === StatusSeleksi::LOLOS;
     }
 
     public function render()
@@ -29,4 +39,3 @@ class HasilSeleksi extends Component
         return view('livewire.hasil-seleksi');
     }
 }
-

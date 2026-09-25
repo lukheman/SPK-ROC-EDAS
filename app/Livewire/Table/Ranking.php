@@ -3,6 +3,7 @@
 namespace App\Livewire\Table;
 
 use App\Enums\State;
+use App\Enums\StatusSeleksi;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -35,14 +36,12 @@ class Ranking extends Component
 
         $this->siswaList = $this->siswaList->sortByDesc('skor')->values();
 
-        $siswaLolos = $this->siswaList->take(3);
+        $siswaLolos = $this->siswaList->take(RocEdas::JUMLAH_LOLOS);
 
         foreach($this->siswaList as $siswa) {
-            if($siswaLolos->contains('id_siswa', $siswa->id_siswa)) {
-                $siswa->lolos = true;
-            } else {
-                $siswa->lolos = false;
-            }
+            $rekomendasiLolos = $siswaLolos->contains('id_siswa', $siswa->id_siswa);
+            $siswa->terverifikasi = StatusSeleksi::fromMixed($siswa->status_seleksi ?? null) !== null;
+            $siswa->lolos = StatusSeleksi::efektif($siswa->status_seleksi ?? null, $rekomendasiLolos) === StatusSeleksi::LOLOS;
         }
 
     }

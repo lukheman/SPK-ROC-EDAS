@@ -124,11 +124,19 @@
                             <li class="sidebar-title">Laporan</li>
 
 <x-nav-link
-    icon="bi-file-earmark-text-fill"
-    href="{{ route('laporan-hasil-seleksi-page') }}"
-    :active="request()->routeIs('laporan-hasil-seleksi-page')"
+    icon="bi-file-earmark-check-fill"
+    href="{{ route('laporan-rekomendasi-page') }}"
+    :active="request()->routeIs('laporan-rekomendasi-page', 'laporan-hasil-seleksi-page')"
 >
-                        Laporan Hasil Seleksi
+                        Laporan Rekomendasi
+</x-nav-link>
+
+<x-nav-link
+    icon="bi-file-earmark-text-fill"
+    href="{{ route('laporan-hasil-akhir-page') }}"
+    :active="request()->routeIs('laporan-hasil-akhir-page')"
+>
+                        Laporan Hasil Akhir
 </x-nav-link>
 
                         @endif

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Hasil Akhir Penetapan Penerima KIP</title>
+    <title>Laporan Rekomendasi Penerima KIP</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap">
     <style>
         body {
@@ -112,18 +112,18 @@
 </head>
 <body onload="window.print()">
     <div class="container">
-        <h3 class="text-center">LAPORAN HASIL AKHIR</h3>
-        <h5 class="text-center"><u>PENETAPAN PENERIMA KARTU INDONESIA PINTAR (KIP)</u></h5>
+        <h3 class="text-center">LAPORAN REKOMENDASI</h3>
+        <h5 class="text-center"><u>PENERIMA KARTU INDONESIA PINTAR (KIP)</u></h5>
         <address>
             Disusun oleh Panitia Seleksi Penerima KIP<br>
             Tahun {{ \Carbon\Carbon::now()->translatedFormat('Y') }}
         </address>
         <hr>
 
-        <p class="section-title">{{ \App\Helpers\RocEdas::JUMLAH_LOLOS }} Besar Penerima KIP</p>
+        <p class="section-title">Hasil Seleksi Admin (Rekomendasi ke Pusat)</p>
 
-        @if ($siswaLolos->isEmpty())
-            <p class="no-data">Tidak ada data penerima KIP yang tersedia.</p>
+        @if ($siswaList->isEmpty())
+            <p class="no-data">Tidak ada data rekomendasi KIP yang tersedia.</p>
         @else
             <table class="data-table">
                 <thead>
@@ -132,18 +132,18 @@
                         <th>Nama Siswa</th>
                         <th>NISN</th>
                         <th>Skor Akhir</th>
-                        <th>Status</th>
+                        <th>Status Seleksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($siswaLolos as $index => $siswa)
+                    @foreach ($siswaList as $index => $siswa)
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
                             <td>{{ $siswa->nama }}</td>
                             <td>{{ $siswa->nisn }}</td>
                             <td>{{ number_format($siswa->skor, 2) }}</td>
                             <td class="text-center">
-            DITERIMA
+                                {{ isset($siswa->lolos) && $siswa->lolos ? 'LOLOS SELEKSI' : 'TIDAK LOLOS' }}
                             </td>
                         </tr>
                     @endforeach

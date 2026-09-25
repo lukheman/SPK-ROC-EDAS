@@ -9,6 +9,9 @@ use Illuminate\Support\Collection;
 
 class RocEdas
 {
+    /** Jumlah siswa yang lolos seleksi (rekomendasi ranking teratas). */
+    public const JUMLAH_LOLOS = 150;
+
     public Collection $siswaList;
     public Collection $kriteriaList;
 

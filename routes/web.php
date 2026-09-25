@@ -34,11 +34,21 @@ Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(funct
 
     Route::get('/hasil-seleksi', Livewire\HasilSeleksi::class)->name('hasil-seleksi');
 
+    Route::get('/laporan-rekomendasi', Livewire\Laporan\LaporanRekomendasi::class)->name('laporan-rekomendasi-page'); // Laporan Rekomendasi
+    Route::get('/laporan-hasil-akhir', Livewire\Laporan\LaporanHasilAkhir::class)->name('laporan-hasil-akhir-page'); // Laporan Hasil Akhir
+
+    // Kompatibilitas lama
     Route::get('/laporan-hasil-seleksi',Livewire\Laporan\LaporanHasilSeleksi::class)->name('laporan-hasil-seleksi-page'); // Laporan
 
     Route::prefix('laporan')
         ->controller(Controllers\LaporanController::class)
         ->group(function () {
+            Route::get('/laporan-rekomendasi', 'rekomendasi')
+                ->name('laporan-rekomendasi');
+
+            Route::get('/laporan-hasil-akhir', 'hasilAkhir')
+                ->name('laporan-hasil-akhir');
+
             Route::get('/laporan-hasil-seleksi', 'hasilSeleksi')
                 ->name('laporan-hasil-seleksi');
 

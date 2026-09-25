@@ -120,10 +120,10 @@
         </address>
         <hr>
 
-        <p class="section-title">{{ \App\Helpers\RocEdas::JUMLAH_LOLOS }} Besar Penerima KIP</p>
+        <p class="section-title">Daftar Siswa Diterima di Pusat (Hasil ACC Kepala Sekolah / Pusat)</p>
 
         @if ($siswaLolos->isEmpty())
-            <p class="no-data">Tidak ada data penerima KIP yang tersedia.</p>
+            <p class="no-data">Belum ada data penerima KIP yang di-ACC diterima di pusat.</p>
         @else
             <table class="data-table">
                 <thead>

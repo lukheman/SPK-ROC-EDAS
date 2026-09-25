@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusSeleksi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,6 +19,13 @@ class Siswa extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'status_seleksi' => StatusSeleksi::class,
+        ];
+    }
 
     public function alternatif(): HasMany
     {
