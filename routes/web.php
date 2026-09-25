@@ -46,12 +46,15 @@ Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(funct
             Route::get('/laporan-rekomendasi', 'rekomendasi')
                 ->name('laporan-rekomendasi');
 
-            Route::get('/laporan-hasil-akhir', 'hasilAkhir')
-                ->name('laporan-hasil-akhir');
-
             Route::get('/laporan-hasil-seleksi', 'hasilSeleksi')
                 ->name('laporan-hasil-seleksi');
 
         });
 
 });
+
+// =======================
+// Publikasi hasil akhir (dapat diunduh tanpa login)
+// =======================
+Route::get('/laporan/laporan-hasil-akhir', [Controllers\LaporanController::class, 'hasilAkhir'])
+    ->name('laporan-hasil-akhir');

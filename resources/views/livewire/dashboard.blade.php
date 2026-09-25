@@ -57,4 +57,24 @@
         </div>
     </div>
 
+    <!-- LAPORAN HASIL AKHIR -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body px-4 py-4-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h6 class="font-bold mb-1">Laporan Hasil Akhir</h6>
+                        <p class="text-muted mb-0">{{ $lolos }} siswa lolos seleksi. Unduh laporan hasil akhir penerima PIP.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <a href="{{ route('laporan-hasil-akhir') }}" class="btn btn-danger">
+                            <i class="bi bi-printer"></i>
+                            Download Laporan Hasil Akhir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

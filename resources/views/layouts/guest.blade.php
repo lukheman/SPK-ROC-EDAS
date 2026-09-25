@@ -448,6 +448,11 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{{ route('laporan-hasil-akhir') }}">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i> Hasil Akhir
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link btn-login" href="{{ route('login') }}">
                 <i class="bi bi-box-arrow-in-right me-1"></i> Login
               </a>
