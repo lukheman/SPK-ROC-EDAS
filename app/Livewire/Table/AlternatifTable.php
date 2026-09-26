@@ -13,7 +13,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-#[Title('Penilaian')]
+#[Title('Alternatif')]
 class AlternatifTable extends Component
 {
 

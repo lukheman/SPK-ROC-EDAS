@@ -85,7 +85,7 @@
     href="{{ route('siswa-table') }}"
     :active="request()->routeIs('siswa-table')"
 >
-    Alternatif
+    Siswa
 </x-nav-link>
 
 <x-nav-link
@@ -109,7 +109,7 @@
     href="{{ route('alternatif') }}"
     :active="request()->routeIs('alternatif')"
 >
-                        Penilaian
+                        Alternatif
 </x-nav-link>
 
 <x-nav-link
