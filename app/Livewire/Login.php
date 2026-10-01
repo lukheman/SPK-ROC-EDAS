@@ -36,22 +36,6 @@ class Login extends Component
     {
         $this->validate();
 
-        // // Coba login sebagai admin (email + password, guard web)
-        // if (Auth::guard('pengguna')->attempt([
-        //     'email' => $this->identifier,
-        //     'password' => $this->password,
-        // ])) {
-        //     $user = Auth::guard('pengguna')->user();
-        //
-        //
-        //     flash('Login berhasil');
-        //     return match ($user->role) {
-        //         Role::ADMIN => redirect()->to(route('dashboard')),
-        //         Role::KEPALASEKOLAH => redirect()->to(route('dashboard')),
-        //         default     => flash('Role tidak valid.', 'danger'),
-        //     };
-        // }
-
         // Coba login sebagai siswa (nim + password, guard siswa)
         if (Auth::guard('siswa')->attempt([
             'nisn' => $this->identifier, // atau nim kalau field di tabel namanya nim

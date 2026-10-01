@@ -1,6 +1,6 @@
 <div>
 
-    @if (auth('pengguna')->check())
+    @if (auth('admin')->check() || auth('kepala_sekolah')->check())
 
     <livewire:profile.pengguna />
     @elseif(auth('siswa')->check())

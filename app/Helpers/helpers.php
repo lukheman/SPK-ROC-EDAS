@@ -45,8 +45,8 @@ if (! function_exists('getActiveUserId')) {
         $guard = getActiveGuard();
         $user = getActiveUser();
 
-        if($guard === 'pengguna') {
-            return $user->id;
+        if(in_array($guard, ['admin', 'kepala_sekolah', 'web'])) {
+            return $user->getKey();
         } elseif($guard === 'siswa') {
             return $user->id_siswa;
         }
