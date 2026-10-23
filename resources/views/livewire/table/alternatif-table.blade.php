@@ -111,14 +111,17 @@ use App\Enums\State;
                             @foreach ($this->kriteriaList as $kriteria)
                                 @php
                                     $nilai = $item->getNilaiKriteria($kriteria->id_kriteria);
-                                    $sub = $kriteria->subKriteria->where('nilai', $nilai)->first();
+                                    // Beberapa pilihan bisa punya nilai sama (mis. Yatim & Piatu = 1),
+                                    // jadi tampilkan semuanya agar tidak salah label.
+                                    $subs = $kriteria->subKriteria->where('nilai', $nilai);
+                                    $subLabel = $subs->pluck('nama')->implode(' / ');
                                     $isRupiah = str_contains(strtolower($kriteria->kode ?? ''), 'penghasilan');
                                 @endphp
                                 <td class="text-center">
-                                    @if ($nilai === 0 && !$sub)
+                                    @if ($nilai === 0 && $subs->isEmpty())
                                         <span class="text-muted">-</span>
-                                    @elseif ($sub)
-                                        <span>{{ $sub->nama }}</span>
+                                    @elseif ($subs->isNotEmpty())
+                                        <span>{{ $subLabel }}</span>
                                         <small class="text-muted d-block" style="font-size: 0.75em;">Nilai: {{ $nilai }}</small>
                                     @else
                                         <span class="badge bg-light text-dark border">{{ $isRupiah ? rupiah($nilai) : $nilai }}</span>
