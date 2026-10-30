@@ -105,11 +105,11 @@
 </x-nav-link>
 
 <x-nav-link
-    icon="bi-table"
-    href="{{ route('alternatif') }}"
-    :active="request()->routeIs('alternatif')"
+    icon="bi-clipboard2-data"
+    href="{{ route('penilaian-roc') }}"
+    :active="request()->routeIs('penilaian-roc', 'alternatif')"
 >
-                        Alternatif
+                        Penilaian ROC
 </x-nav-link>
 
 <x-nav-link

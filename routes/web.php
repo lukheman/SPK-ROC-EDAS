@@ -29,6 +29,8 @@ Route::middleware(MultiAuth::class . ':siswa,admin,kepala_sekolah')->group(funct
     Route::get('/siswa/template', [Controllers\SiswaExcelController::class, 'template'])->name('siswa-template');
     Route::post('/siswa/import', [Controllers\SiswaExcelController::class, 'import'])->name('siswa-import');
     Route::get('/ranking', Livewire\Table\Ranking::class)->name('ranking');
+    Route::get('/penilaian-roc', Livewire\Table\AlternatifTable::class)->name('penilaian-roc');
+    // Kompatibilitas lama
     Route::get('/alternatif', Livewire\Table\AlternatifTable::class)->name('alternatif');
     Route::get('/kriteria', Livewire\Table\KriteriaTable::class)->name('kriteria');
 

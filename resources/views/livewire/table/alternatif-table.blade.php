@@ -14,7 +14,7 @@ use App\Enums\State;
                         <div class="modal-content shadow-lg rounded-3">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title text-white" id="myModalLabel1">
-                                    Data Penilaian Siswa
+                                    Input Penilaian ROC
                                 </h5>
                                 <button type="button" class="close rounded-pill"
                                     wire:click="$dispatch('closeModal', {id: 'modal-form-siswa'})">
@@ -129,7 +129,7 @@ use App\Enums\State;
                                 </td>
                             @endforeach
                             <td class="text-end">
-                                <button wire:click="alternatif({{ $item->id_siswa }})" class="btn btn-sm btn-info">Beri Nilai</button>
+                                <button wire:click="alternatif({{ $item->id_siswa }})" class="btn btn-sm btn-info">Input Nilai</button>
                             </td>
                         </tr>
                     @endforeach
