@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Hasil Akhir Penetapan Penerima KIP</title>
+    <title>Laporan Hasil Akhir Penetapan Penerima PIP</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap">
     <style>
         body {
@@ -113,17 +113,17 @@
 <body onload="window.print()">
     <div class="container">
         <h3 class="text-center">LAPORAN HASIL AKHIR</h3>
-        <h5 class="text-center"><u>PENETAPAN PENERIMA KARTU INDONESIA PINTAR (KIP)</u></h5>
+        <h5 class="text-center"><u>PENETAPAN PENERIMA PROGRAM INDONESIA PINTAR (PIP)</u></h5>
         <address>
-            Disusun oleh Panitia Seleksi Penerima KIP<br>
+            Disusun oleh Panitia Seleksi Penerima PIP<br>
             Tahun {{ \Carbon\Carbon::now()->translatedFormat('Y') }}
         </address>
         <hr>
 
-        <p class="section-title">{{ \App\Helpers\RocEdas::JUMLAH_LOLOS }} Besar Penerima KIP</p>
+        <p class="section-title">{{ \App\Helpers\RocEdas::JUMLAH_LOLOS }} Besar Penerima PIP</p>
 
         @if ($siswaLolos->isEmpty())
-            <p class="no-data">Tidak ada data penerima KIP yang tersedia.</p>
+            <p class="no-data">Tidak ada data penerima PIP yang tersedia.</p>
         @else
             <table class="data-table">
                 <thead>

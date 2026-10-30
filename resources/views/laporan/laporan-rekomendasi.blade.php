@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Rekomendasi Penerima KIP</title>
+    <title>Laporan Rekomendasi Penerima PIP</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap">
     <style>
         body {
@@ -113,9 +113,9 @@
 <body onload="window.print()">
     <div class="container">
         <h3 class="text-center">LAPORAN REKOMENDASI</h3>
-        <h5 class="text-center"><u>PENERIMA KARTU INDONESIA PINTAR (KIP)</u></h5>
+        <h5 class="text-center"><u>PENERIMA PROGRAM INDONESIA PINTAR (PIP)</u></h5>
         <address>
-            Disusun oleh Panitia Seleksi Penerima KIP<br>
+            Disusun oleh Panitia Seleksi Penerima PIP<br>
             Tahun {{ \Carbon\Carbon::now()->translatedFormat('Y') }}
         </address>
         <hr>
@@ -123,7 +123,7 @@
         <p class="section-title">Hasil Seleksi Admin (Rekomendasi ke Pusat)</p>
 
         @if ($siswaList->isEmpty())
-            <p class="no-data">Tidak ada data rekomendasi KIP yang tersedia.</p>
+            <p class="no-data">Tidak ada data rekomendasi PIP yang tersedia.</p>
         @else
             <table class="data-table">
                 <thead>
