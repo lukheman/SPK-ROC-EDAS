@@ -226,6 +226,7 @@ class RocEdas
      */
     private function NDA(float $avg, float $number = 0): float
     {
-        return round(($avg - $number) / $avg, 6);
+        // Kriteria tanpa penilaian memiliki rata-rata 0. Hindari pembagian dengan nol.
+        return $avg == 0 ? 0 : round(($avg - $number) / $avg, 6);
     }
 }
